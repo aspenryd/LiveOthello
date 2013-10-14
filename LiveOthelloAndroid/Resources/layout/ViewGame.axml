@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Game Menu"
+            android:background="@drawable/buttonstyle"
+            style="@style/button_text"
+            android:ems="6" />
+        <Button
+            android:id="@+id/btnViewChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Chat"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/buttonstyle"
+            style="@style/button_text"
+            android:ems="6" />
+    </RelativeLayout>
+    <ViewFlipper
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/viewFlipper1"
+        android:layout_marginBottom="0px">
+        <WebView
+            android:id="@+id/webView1"
+            android:fitsSystemWindows="true"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="16.0dp" />
+        <WebView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webView2" />
+    </ViewFlipper>
+</LinearLayout>
