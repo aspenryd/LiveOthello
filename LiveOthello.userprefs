@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="othelloBase\LiveOthelloService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
       <File FileName="othelloBase\LiveOthelloService.cs" Line="34" Column="14" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
