@@ -69,14 +69,23 @@ namespace test
 			// aapt resource value: 0x7f060004
 			public const int btnGame = 2131099652;
 			
-			// aapt resource value: 0x7f060005
-			public const int btnMenu = 2131099653;
-			
 			// aapt resource value: 0x7f060006
-			public const int btnViewChange = 2131099654;
+			public const int btnMenu = 2131099654;
+			
+			// aapt resource value: 0x7f060007
+			public const int btnViewChange = 2131099655;
 			
 			// aapt resource value: 0x7f060003
 			public const int gamesspinner = 2131099651;
+			
+			// aapt resource value: 0x7f060005
+			public const int layoutButtons = 2131099653;
+			
+			// aapt resource value: 0x7f060008
+			public const int layoutFlipper = 2131099656;
+			
+			// aapt resource value: 0x7f06000c
+			public const int layoutNews = 2131099660;
 			
 			// aapt resource value: 0x7f060000
 			public const int textView1 = 2131099648;
@@ -87,14 +96,14 @@ namespace test
 			// aapt resource value: 0x7f060001
 			public const int tournamentspinner = 2131099649;
 			
-			// aapt resource value: 0x7f060007
-			public const int viewFlipper1 = 2131099655;
-			
-			// aapt resource value: 0x7f060008
-			public const int webView1 = 2131099656;
-			
 			// aapt resource value: 0x7f060009
-			public const int webView2 = 2131099657;
+			public const int viewFlipper1 = 2131099657;
+			
+			// aapt resource value: 0x7f06000a
+			public const int webView1 = 2131099658;
+			
+			// aapt resource value: 0x7f06000b
+			public const int webView2 = 2131099659;
 			
 			static Id()
 			{
