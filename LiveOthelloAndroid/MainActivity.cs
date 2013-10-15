@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Android.Webkit;
 using othelloBase;
 using System.Linq;
+using System.Threading;
 
 namespace test
 {
@@ -24,16 +25,22 @@ namespace test
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
 
-			Spinner spinner = FindViewById<Spinner> (Resource.Id.tournamentspinner);
-			spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs> (tournamentspinner_ItemSelected);
-
 			var tournaments = GetTournaments ();
-			FillSpinner (spinner, tournaments);
+			UpdateTournamentSpinner();
 
 			var showSecond = FindViewById<Button> (Resource.Id.btnGame);
 			showSecond.Click += (sender, e) => {
 				ViewGame();
 			};
+
+			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
+		}
+
+		protected void UpdateTournamentSpinner ()
+		{
+			Spinner spinner = FindViewById<Spinner> (Resource.Id.tournamentspinner);
+			spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs> (tournamentspinner_ItemSelected);
+			FillSpinner (spinner, tournaments);
 		}
 
 		protected void FillSpinner(Spinner spinner, IEnumerable<Tournament> items)
@@ -50,6 +57,20 @@ namespace test
 			spinner.Adapter = adapter;
 		}
 
+		protected void UpdateTournamentsFromSite ()
+		{
+			if (HasNewTournaments())
+				RunOnUiThread (() => SaveTournamentsAndUpdateTournamentSpinner());
+		}
+
+		protected void SaveTournamentsAndUpdateTournamentSpinner ()
+		{
+			var localStorage = new LocalStorage ();
+			localStorage.SaveTournamentsToStorage (this.ApplicationContext, tournaments);
+			UpdateTournamentSpinner ();
+		}
+
+
 		protected IEnumerable<Tournament> GetTournaments()
 		{
 			if (tournaments == null) 
@@ -62,6 +83,19 @@ namespace test
 				}
 			}
 			return tournaments;
+		}
+
+		protected bool HasNewTournaments()
+		{
+			var newtournaments = new LiveOthelloService ().GetTournaments ().ToList ();
+			if (newtournaments.Count() != tournaments.Count())
+			{
+				tournaments = newtournaments;
+				return true;
+			} else 
+			{
+				return false;
+			}
 		}
 
 		protected IEnumerable<Game> GetGamesFromTournament(Tournament tournament)
@@ -78,10 +112,42 @@ namespace test
 			return tournament.Games;
 		}
 
+		protected bool HasNewGames(Tournament tournament)
+		{
+			var newgames = new LiveOthelloService ().GetGamesFromTournament (tournament.Id).ToList ();
+			if (newgames.Count() != tournament.Games.Count())
+			{
+				tournament.Games = newgames;
+				return true;
+			} else 
+			{
+				return false;
+			}
+		}
+
 		protected void tournamentspinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
 		{
 			var tournament = tournaments.ToList()[e.Position];
 			games = GetGamesFromTournament (tournament).ToList();
+			UpdateGameSpinner (games);
+			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament));
+		}
+
+		protected void UpdateGamesFromSite (Tournament tournament)
+		{
+			if (HasNewGames(tournament))
+				RunOnUiThread (() => SaveGamesAndUpdateGameSpinner(tournament));
+		}
+
+		protected void SaveGamesAndUpdateGameSpinner (Tournament tournament)
+		{
+			var localStorage = new LocalStorage ();
+			localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+			UpdateGameSpinner (tournament.Games);
+		}
+
+		protected void UpdateGameSpinner (IEnumerable<Game> games)
+		{
 			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
 			FillSpinner (gamesspinner, games);
 		}

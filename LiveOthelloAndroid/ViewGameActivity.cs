@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Webkit;
+using System.Threading;
 
 namespace test
 {
@@ -56,6 +57,8 @@ namespace test
 				else
 					btnChange.Text = "View Chat";
 			};
+
+		
 		}
 
 

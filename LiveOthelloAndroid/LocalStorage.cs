@@ -12,7 +12,6 @@ namespace test
 
 		const string MyPrefKey = "LiveOthelloPrefKey";
 	
-
 		public bool LoadTournamentsFromStorage(Context context, out IList<Tournament> tournaments)
 		{
 			tournaments = new List<Tournament> ();

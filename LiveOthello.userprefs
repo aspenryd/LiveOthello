@@ -2,13 +2,20 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
-      <File FileName="othelloBase\LiveOthelloService.cs" Line="34" Column="14" />
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="1" Column="1" />
+      <File FileName="othelloBase\LiveOthelloService.cs" Line="29" Column="81" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="100" Column="1" />
+      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="15" Column="1" />
+      <File FileName="othelloBase\Classes.cs" Line="59" Column="9" />
+      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="61" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="LiveOthelloAndroid" expanded="True" selected="True" />
+          <Node name="LiveOthelloAndroid" expanded="True" selected="True">
+            <Node name="Resources" expanded="True">
+              <Node name="layout" expanded="True" />
+            </Node>
+          </Node>
           <Node name="othelloBase" expanded="True" />
         </State>
       </Pad>
@@ -24,5 +31,5 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" AndroidDeviceId-Debug="emulator-5554" />
 </Properties>
