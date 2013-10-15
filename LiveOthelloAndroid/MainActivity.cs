@@ -52,15 +52,29 @@ namespace test
 
 		protected IEnumerable<Tournament> GetTournaments()
 		{
-			if (tournaments == null)
-				tournaments = new LiveOthelloService ().GetTournaments ().ToList();
+			if (tournaments == null) 
+			{
+				var localStorage = new LocalStorage ();
+				if (!localStorage.LoadTournamentsFromStorage (this.ApplicationContext, out tournaments)) 
+				{
+					tournaments = new LiveOthelloService ().GetTournaments ().ToList ();
+					localStorage.SaveTournamentsToStorage (this.ApplicationContext, tournaments);
+				}
+			}
 			return tournaments;
 		}
 
 		protected IEnumerable<Game> GetGamesFromTournament(Tournament tournament)
 		{
-			if (tournament.Games == null)
-				tournament.Games = new LiveOthelloService ().GetGamesFromTournament (tournament.Id);
+			if (tournament.Games == null) 
+			{
+				var localStorage = new LocalStorage ();
+				if (!localStorage.LoadGamesFromStorage (this.ApplicationContext, tournament)) 
+				{
+					tournament.Games = new LiveOthelloService ().GetGamesFromTournament (tournament.Id);
+					localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+				}
+			}
 			return tournament.Games;
 		}
 

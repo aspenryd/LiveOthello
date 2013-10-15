@@ -21,6 +21,6 @@ Global
 		{B8247AF8-8967-4736-98FB-A2C8D17E2BF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = othelloBase\othelloBase.csproj
+		StartupItem = LiveOthelloAndroid\LiveOthelloAndroid.csproj
 	EndGlobalSection
 EndGlobal
