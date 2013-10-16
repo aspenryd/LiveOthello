@@ -11,19 +11,17 @@ using othelloBase;
 using System.Linq;
 using System.Threading;
 using Android.Net;
+using Android.Support.V4.App;
+using Java.Lang;
+
 
 namespace test
 {
 	[Activity (Label = "LiveOthello", Icon = "@drawable/logo", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
-		public bool IsConnected {
-			get {
-				var connectivityManager = (ConnectivityManager)GetSystemService (ConnectivityService);
-				var activeConnection = connectivityManager.ActiveNetworkInfo;
-				return  (activeConnection != null) && activeConnection.IsConnected;
-			}
-		}
+		private static readonly int NewGameNotificationId = 1000;
+		private static readonly int NewTournamentNotificationId = 1001;
 
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
@@ -103,14 +101,16 @@ namespace test
 			if (!IsConnected)
 				return false;
 			var newtournaments = AndroidConnectivity.GetTournaments ();
-			if (newtournaments.Count() != tournaments.Count())
+			foreach (var tournament in newtournaments) 
 			{
-				tournaments = newtournaments;
-				return true;
-			} else 
-			{
-				return false;
+				if (!tournaments.Contains (tournament)) 
+				{
+					//NotifyNewTournament (tournament);
+					tournaments = newtournaments;
+					return true;
+				}
 			}
+			return false;
 		}
 
 		protected IEnumerable<Game> GetGamesFromTournament(Tournament tournament)
@@ -135,14 +135,17 @@ namespace test
 			if (!IsConnected)
 				return false;
 			var newgames = AndroidConnectivity.GetGamesFromTournament (tournament.Id).ToList ();
-			if (newgames.Count() != tournament.Games.Count())
+			foreach (var game in newgames) 
 			{
-				tournament.Games = newgames;
-				return true;
-			} else 
-			{
-				return false;
+				if (!tournament.Games.Contains (game)) 
+				{
+					//NotifyNewGame (tournament, game);
+					tournament.Games = games;
+					return true;
+				}
 			}
+			return false;
+
 		}
 
 		protected void tournamentspinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -183,9 +186,50 @@ namespace test
 				second.PutExtra ("GameId", game.Id.ToString ());
 				StartActivity (second);	
 			} 
-
 		}
+
+		public bool IsConnected {
+			get {
+				var connectivityManager = (ConnectivityManager)GetSystemService (ConnectivityService);
+				var activeConnection = connectivityManager.ActiveNetworkInfo;
+				return  (activeConnection != null) && activeConnection.IsConnected;
+			}
+		}
+
+		protected void NotifyNewGame(Game game)
+		{
+			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, NewGameNotificationId);
+		}
+
+		protected void NotifyNewTournament(Tournament tournament)
+		{
+			CreateNotification ("New LiveOthello tournament", tournament.Name, Resource.Drawable.tournament_small, NewTournamentNotificationId);
+		}
+
+		protected void CreateNotification(string title, string text, int icon, int notificationId)
+		{
+			Intent resultIntent = new Intent(this, typeof(MainActivity));
+
+			var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
+			stackBuilder.AddParentStack(Class.FromType(typeof(MainActivity)));
+			stackBuilder.AddNextIntent(resultIntent);
+
+			PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+
+			Android.Support.V4.App.NotificationCompat.Builder builder = new Android.Support.V4.App.NotificationCompat.Builder(this)
+					.SetAutoCancel(true) // dismiss the notification from the notification area when the user clicks on it
+					.SetContentIntent(resultPendingIntent) // start up this activity when the user clicks the intent.
+					.SetContentTitle(title)
+					.SetSmallIcon(icon)
+					.SetContentText(text);
+
+			// Obtain a reference to the NotificationManager
+			var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+			notificationManager.Notify(notificationId, builder.Build());
+		}
+
 	}
 }
+
 
 
