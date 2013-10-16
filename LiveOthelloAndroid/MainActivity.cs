@@ -14,7 +14,7 @@ using Android.Net;
 
 namespace test
 {
-	[Activity (Label = "LiveOthello", MainLauncher = true)]
+	[Activity (Label = "LiveOthello", Icon = "@drawable/logo", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		public bool IsConnected {
@@ -31,6 +31,8 @@ namespace test
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			//RequestWindowFeature(WindowFeatures.CustomTitle);
+			//Window.SetFeatureInt (WindowFeatures.CustomTitle, Resource.Layout.custom_title);
 			SetContentView (Resource.Layout.Main);
 
 			var tournaments = GetTournaments ();

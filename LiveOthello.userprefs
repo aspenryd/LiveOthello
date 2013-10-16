@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\ViewGameActivity.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
       <File FileName="LiveOthelloAndroid\AndroidConnectivity.cs" Line="22" Column="1" />
-      <File FileName="othelloBase\LiveOthelloService.cs" Line="109" Column="30" />
-      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="29" Column="10" />
+      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="8" Column="19" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="42" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
