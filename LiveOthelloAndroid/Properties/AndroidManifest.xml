@@ -1,6 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.04" package="wof.liveothello" android:versionCode="4">
 	<uses-sdk />
 	<application android:icon="@drawable/logo" android:label="LiveOthello"></application>
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<activity android:name="ViewGameActivity" android:screenOrientation="Portrait" android:configChanges="keyboardHidden|orientation|screenSize"></activity>
 </manifest>

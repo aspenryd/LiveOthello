@@ -10,12 +10,20 @@ using Android.Webkit;
 using othelloBase;
 using System.Linq;
 using System.Threading;
+using Android.Net;
 
 namespace test
 {
 	[Activity (Label = "LiveOthello", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
+		public bool IsConnected {
+			get {
+				var connectivityManager = (ConnectivityManager)GetSystemService (ConnectivityService);
+				var activeConnection = connectivityManager.ActiveNetworkInfo;
+				return  (activeConnection != null) && activeConnection.IsConnected;
+			}
+		}
 
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
@@ -78,16 +86,21 @@ namespace test
 				var localStorage = new LocalStorage ();
 				if (!localStorage.LoadTournamentsFromStorage (this.ApplicationContext, out tournaments)) 
 				{
-					tournaments = new LiveOthelloService ().GetTournaments ().ToList ();
-					localStorage.SaveTournamentsToStorage (this.ApplicationContext, tournaments);
+					if (IsConnected) {
+						tournaments = AndroidConnectivity.GetTournaments ();
+						localStorage.SaveTournamentsToStorage (this.ApplicationContext, tournaments);
+					}
 				}
 			}
 			return tournaments;
 		}
 
+
 		protected bool HasNewTournaments()
 		{
-			var newtournaments = new LiveOthelloService ().GetTournaments ().ToList ();
+			if (!IsConnected)
+				return false;
+			var newtournaments = AndroidConnectivity.GetTournaments ();
 			if (newtournaments.Count() != tournaments.Count())
 			{
 				tournaments = newtournaments;
@@ -105,8 +118,11 @@ namespace test
 				var localStorage = new LocalStorage ();
 				if (!localStorage.LoadGamesFromStorage (this.ApplicationContext, tournament)) 
 				{
-					tournament.Games = new LiveOthelloService ().GetGamesFromTournament (tournament.Id);
-					localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+					if (IsConnected) 
+					{
+						tournament.Games = AndroidConnectivity.GetGamesFromTournament (tournament.Id);
+						localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+					}
 				}
 			}
 			return tournament.Games;
@@ -114,7 +130,9 @@ namespace test
 
 		protected bool HasNewGames(Tournament tournament)
 		{
-			var newgames = new LiveOthelloService ().GetGamesFromTournament (tournament.Id).ToList ();
+			if (!IsConnected)
+				return false;
+			var newgames = AndroidConnectivity.GetGamesFromTournament (tournament.Id).ToList ();
 			if (newgames.Count() != tournament.Games.Count())
 			{
 				tournament.Games = newgames;
