@@ -36,8 +36,8 @@ namespace test
 			var tournaments = GetTournaments ();
 			UpdateTournamentSpinner();
 
-			var showSecond = FindViewById<Button> (Resource.Id.btnGame);
-			showSecond.Click += (sender, e) => {
+			var btnShowGame = FindViewById<Button> (Resource.Id.btnGame);
+			btnShowGame.Click += (sender, e) => {
 				ViewGame();
 			};
 
@@ -173,12 +173,15 @@ namespace test
 		protected void ViewGame()
 		{
 			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
-			var game = games [gamesspinner.SelectedItemPosition];
+			if (gamesspinner.Count > 0 && gamesspinner.SelectedItemPosition >= 0) {
+				var game = games [gamesspinner.SelectedItemPosition];
 
-			var second = new Intent(this, typeof(ViewGameActivity));
-			second.PutExtra("GameName", game.Name);
-			second.PutExtra("GameId", game.Id.ToString());
-			StartActivity(second);	
+				var second = new Intent (this, typeof(ViewGameActivity));
+				second.PutExtra ("GameName", game.Name);
+				second.PutExtra ("GameId", game.Id.ToString ());
+				StartActivity (second);	
+			} 
+
 		}
 	}
 }

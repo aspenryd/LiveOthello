@@ -10,10 +10,11 @@ using Android.Views;
 using Android.Widget;
 using Android.Webkit;
 using System.Threading;
+using Android.Content.PM;
 
 namespace test
 {
-	[Activity (Label = "LiveOthelloGame")]			
+	[Activity (Label = "LiveOthelloGame", ScreenOrientation = ScreenOrientation.Portrait)]		
 	public class ViewGameActivity : Activity
 	{
 		WebView web_view;

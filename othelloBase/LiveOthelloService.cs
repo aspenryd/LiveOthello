@@ -59,7 +59,7 @@ namespace othelloBase
                 id = int.Parse(strings[0]);
                 name = strings[1].Remove(0, 1).Replace("</a>", "");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 id = 0;
                 name = "";
@@ -102,7 +102,7 @@ namespace othelloBase
                 id = int.Parse(strings[0]);
                 name = strings[1].Remove(0, 1).Replace("</a> ", "");
             }
-            catch (Exception e)
+			catch (Exception)
             {
                 id = 0;
                 name = "";
@@ -137,7 +137,7 @@ namespace othelloBase
             {
                 movestring = text.Remove(0, 5).Replace("&size", "");
             }
-            catch (Exception e)
+			catch (Exception)
             {
                 movestring = "";
                 return false;

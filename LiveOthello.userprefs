@@ -1,26 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\AndroidConnectivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\ViewGameActivity.cs">
     <Files>
-      <File FileName="othelloBase\LiveOthelloService.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="1" Column="1" />
-      <File FileName="othelloBase\Classes.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\Properties\AndroidManifest.xml" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\Properties\AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\AndroidConnectivity.cs" Line="17" Column="9" />
+      <File FileName="LiveOthelloAndroid\AndroidConnectivity.cs" Line="22" Column="1" />
+      <File FileName="othelloBase\LiveOthelloService.cs" Line="109" Column="30" />
+      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="29" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="LiveOthelloAndroid" expanded="True">
+          <Node name="LiveOthelloAndroid" expanded="True" selected="True">
             <Node name="Properties" expanded="True" />
             <Node name="Resources" expanded="True">
               <Node name="drawable" expanded="True" />
               <Node name="layout" expanded="True" />
             </Node>
-            <Node name="AndroidConnectivity.cs" selected="True" />
           </Node>
           <Node name="othelloBase" expanded="True" />
         </State>
