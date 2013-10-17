@@ -71,6 +71,10 @@
     <AndroidResource Include="Resources\drawable\game.png" />
     <AndroidResource Include="Resources\drawable\game_small.png" />
     <AndroidResource Include="Resources\drawable\tournament_small.png" />
+    <AndroidResource Include="Resources\drawable\menu_info.png" />
+    <AndroidResource Include="Resources\drawable\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable\menu_update.png" />
+    <AndroidResource Include="Resources\drawable\ic_title_share_default.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

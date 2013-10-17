@@ -54,13 +54,25 @@ namespace test
 			public const int game_small = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Icon = 2130837507;
+			public const int ic_title_share_default = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int logo = 2130837508;
+			public const int Icon = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int tournament_small = 2130837509;
+			public const int logo = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int menu_info = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int menu_settings = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int menu_update = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int tournament_small = 2130837513;
 			
 			static Drawable()
 			{

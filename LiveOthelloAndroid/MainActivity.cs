@@ -22,6 +22,9 @@ namespace test
 	{
 		private static readonly int NewGameNotificationId = 1000;
 		private static readonly int NewTournamentNotificationId = 1001;
+		private const int menuItemInfo = 0;
+		private const int menuItemSettings = 1;
+		private const int menuItemUpdate = 2;
 
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
@@ -42,6 +45,60 @@ namespace test
 			};
 
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
+		}
+
+
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			//var menuitemInfo = menu.Add(0,menuItemInfo,0,"Info");
+			//menuitemInfo.SetIcon(Resource.Drawable.menu_info);
+			//var menuitemSettings = menu.Add(0,menuItemSettings,1,"Settings");
+			//menuitemSettings.SetIcon(Resource.Drawable.menu_settings);
+			menu.Add(0,menuItemUpdate,2,"Check for new games").SetIcon(Resource.Drawable.menu_update);
+			return base.OnCreateOptionsMenu (menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+			case menuItemInfo: 
+				{
+					ShowInfo ();
+					return true;
+				}
+			case menuItemSettings: 
+				{
+					ShowSettings ();
+					return true;
+				}
+			case menuItemUpdate: 
+				{
+					UpdateTournamentListAndTournamentsThatHaveGames ();
+					return true;
+				}
+				default:
+				return base.OnOptionsItemSelected(item);
+			}
+		}
+
+		void ShowInfo ()
+		{
+			//throw new NotImplementedException ();
+		}
+
+		void ShowSettings ()
+		{
+			//throw new NotImplementedException ();
+		}
+
+		void UpdateTournamentListAndTournamentsThatHaveGames ()
+		{
+			UpdateTournamentsFromSite ();
+			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
+			{
+				UpdateGamesFromSite (tournament);					
+			}
 		}
 
 		protected void UpdateTournamentSpinner ()
@@ -105,7 +162,7 @@ namespace test
 			{
 				if (!tournaments.Contains (tournament)) 
 				{
-					//NotifyNewTournament (tournament);
+					NotifyNewTournament (tournament);
 					tournaments = newtournaments;
 					return true;
 				}
@@ -139,7 +196,7 @@ namespace test
 			{
 				if (!tournament.Games.Contains (game)) 
 				{
-					//NotifyNewGame (tournament, game);
+					NotifyNewGame (game);
 					tournament.Games = games;
 					return true;
 				}
