@@ -20,20 +20,28 @@ namespace test
 	[Activity (Label = "LiveOthello", Icon = "@drawable/logo", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
+		#region fields
 		private static readonly int NewGameNotificationId = 1000;
 		private static readonly int NewTournamentNotificationId = 1001;
 		private const int menuItemInfo = 0;
 		private const int menuItemSettings = 1;
 		private const int menuItemUpdate = 2;
 
+		System.Timers.Timer _timer;
+
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
+
+		DateTime LastUpdateCheck;
+
+		int minTimeBetweenUpdates = 60;  //seconds
+
+		#endregion
+
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-			//RequestWindowFeature(WindowFeatures.CustomTitle);
-			//Window.SetFeatureInt (WindowFeatures.CustomTitle, Resource.Layout.custom_title);
 			SetContentView (Resource.Layout.Main);
 
 			var tournaments = GetTournaments ();
@@ -45,6 +53,18 @@ namespace test
 			};
 
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
+
+			CreateTimerForUpdates ();
+		}
+
+
+		#region public methods
+		public bool IsConnected {
+			get {
+				var connectivityManager = (ConnectivityManager)GetSystemService (ConnectivityService);
+				var activeConnection = connectivityManager.ActiveNetworkInfo;
+				return  (activeConnection != null) && activeConnection.IsConnected;
+			}
 		}
 
 
@@ -64,12 +84,12 @@ namespace test
 			{
 			case menuItemInfo: 
 				{
-					ShowInfo ();
+					ViewInfo ();
 					return true;
 				}
 			case menuItemSettings: 
 				{
-					ShowSettings ();
+					ViewSettings ();
 					return true;
 				}
 			case menuItemUpdate: 
@@ -81,52 +101,46 @@ namespace test
 				return base.OnOptionsItemSelected(item);
 			}
 		}
+		#endregion
 
-		void ShowInfo ()
-		{
-			//throw new NotImplementedException ();
-		}
+		#region Properties
 
-		void ShowSettings ()
-		{
-			//throw new NotImplementedException ();
-		}
-
-		void UpdateTournamentListAndTournamentsThatHaveGames ()
-		{
-			UpdateTournamentsFromSite ();
-			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
-			{
-				UpdateGamesFromSite (tournament);					
+		Tournament CurrentTournament {
+			get
+			{ 
+				var spinner = FindViewById<Spinner> (Resource.Id.tournamentspinner);
+				return tournaments.ToList()[spinner.SelectedItemPosition];
 			}
+
 		}
 
-		protected void UpdateTournamentSpinner ()
-		{
-			Spinner spinner = FindViewById<Spinner> (Resource.Id.tournamentspinner);
-			spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs> (tournamentspinner_ItemSelected);
-			FillSpinner (spinner, tournaments);
-		}
+		#endregion
 
-		protected void FillSpinner(Spinner spinner, IEnumerable<Tournament> items)
-		{
-			var adapter = new ArrayAdapter<Tournament>(this, Android.Resource.Layout.SimpleSpinnerItem, items.ToList());
-			adapter.SetDropDownViewResource (Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			spinner.Adapter = adapter;
-		}
 
-		protected void FillSpinner(Spinner spinner, IEnumerable<Game> items)
-		{
-			var adapter = new ArrayAdapter<Game>(this, Android.Resource.Layout.SimpleSpinnerItem, items.ToList());
-			adapter.SetDropDownViewResource (Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			spinner.Adapter = adapter;
-		}
-
+		#region protected methods
 		protected void UpdateTournamentsFromSite ()
 		{
 			if (HasNewTournaments())
 				RunOnUiThread (() => SaveTournamentsAndUpdateTournamentSpinner());
 		}
+
+		protected bool HasNewTournaments()
+		{
+			if (!IsConnected)
+				return false;
+			var newtournaments = AndroidConnectivity.GetTournaments ();
+			foreach (var tournament in newtournaments) 
+			{
+				if (!tournaments.Contains (tournament)) 
+				{
+					NotifyNewTournament (tournament);
+					tournaments = newtournaments;
+					return true;
+				}
+			}
+			return false;
+		}
+
 
 		protected void SaveTournamentsAndUpdateTournamentSpinner ()
 		{
@@ -152,24 +166,6 @@ namespace test
 			return tournaments;
 		}
 
-
-		protected bool HasNewTournaments()
-		{
-			if (!IsConnected)
-				return false;
-			var newtournaments = AndroidConnectivity.GetTournaments ();
-			foreach (var tournament in newtournaments) 
-			{
-				if (!tournaments.Contains (tournament)) 
-				{
-					NotifyNewTournament (tournament);
-					tournaments = newtournaments;
-					return true;
-				}
-			}
-			return false;
-		}
-
 		protected IEnumerable<Game> GetGamesFromTournament(Tournament tournament)
 		{
 			if (tournament.Games == null) 
@@ -185,6 +181,12 @@ namespace test
 				}
 			}
 			return tournament.Games;
+		}
+
+		protected void UpdateGamesFromSite (Tournament tournament, bool updateSpinner)
+		{
+			if (HasNewGames(tournament))
+				RunOnUiThread (() => SaveGamesAndUpdateGameSpinner(tournament, updateSpinner));
 		}
 
 		protected bool HasNewGames(Tournament tournament)
@@ -205,32 +207,40 @@ namespace test
 
 		}
 
-		protected void tournamentspinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+		protected void SaveGamesAndUpdateGameSpinner (Tournament tournament, bool updateSpinner)
+		{
+			var localStorage = new LocalStorage ();
+			localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+			if (updateSpinner)
+				UpdateGameSpinner (tournament.Games);
+		}
+
+		#endregion
+
+		#region events
+
+		private void tournamentspinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
 		{
 			var tournament = tournaments.ToList()[e.Position];
 			games = GetGamesFromTournament (tournament).ToList();
 			UpdateGameSpinner (games);
-			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament));
+			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament, true));
 		}
 
-		protected void UpdateGamesFromSite (Tournament tournament)
+		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
 		{
-			if (HasNewGames(tournament))
-				RunOnUiThread (() => SaveGamesAndUpdateGameSpinner(tournament));
+			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
+			{
+				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames ());
+				LastUpdateCheck = DateTime.Now;
+			}
 		}
 
-		protected void SaveGamesAndUpdateGameSpinner (Tournament tournament)
-		{
-			var localStorage = new LocalStorage ();
-			localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
-			UpdateGameSpinner (tournament.Games);
-		}
 
-		protected void UpdateGameSpinner (IEnumerable<Game> games)
-		{
-			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
-			FillSpinner (gamesspinner, games);
-		}
+		#endregion 
+
+		#region UI Methods
+	
 
 		protected void ViewGame()
 		{
@@ -245,13 +255,66 @@ namespace test
 			} 
 		}
 
-		public bool IsConnected {
-			get {
-				var connectivityManager = (ConnectivityManager)GetSystemService (ConnectivityService);
-				var activeConnection = connectivityManager.ActiveNetworkInfo;
-				return  (activeConnection != null) && activeConnection.IsConnected;
+		void ViewInfo ()
+		{
+			//throw new NotImplementedException ();
+		}
+
+		void ViewSettings ()
+		{
+			//throw new NotImplementedException ();
+		}
+
+		protected void UpdateTournamentSpinner ()
+		{
+			Spinner spinner = FindViewById<Spinner> (Resource.Id.tournamentspinner);
+			spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs> (tournamentspinner_ItemSelected);
+			FillSpinner (spinner, tournaments);
+		}
+
+		protected void FillSpinner(Spinner spinner, IEnumerable<Tournament> items)
+		{
+			var adapter = new ArrayAdapter<Tournament>(this, Android.Resource.Layout.SimpleSpinnerItem, items.ToList());
+			adapter.SetDropDownViewResource (Android.Resource.Layout.SimpleSpinnerDropDownItem);
+			spinner.Adapter = adapter;
+		}
+
+		protected void UpdateGameSpinner (IEnumerable<Game> games)
+		{
+			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
+			FillSpinner (gamesspinner, games);
+		}
+
+		protected void FillSpinner(Spinner spinner, IEnumerable<Game> items)
+		{
+			var adapter = new ArrayAdapter<Game>(this, Android.Resource.Layout.SimpleSpinnerItem, items.ToList());
+			adapter.SetDropDownViewResource (Android.Resource.Layout.SimpleSpinnerDropDownItem);
+			spinner.Adapter = adapter;
+		}
+
+		#endregion
+
+		#region private methods
+		private void CreateTimerForUpdates ()
+		{
+			_timer = new System.Timers.Timer();
+			_timer.Interval = 1000; //Trigger event every second
+			_timer.Elapsed += OnTimedEvent;
+			_timer.Enabled = true;
+		}
+
+		private void UpdateTournamentListAndTournamentsThatHaveGames ()
+		{
+			UpdateTournamentsFromSite ();
+			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
+			{
+				UpdateGamesFromSite (tournament, CurrentTournament.Id == tournament.Id);
 			}
 		}
+
+		#endregion
+
+		#region Notifications
 
 		protected void NotifyNewGame(Game game)
 		{
@@ -285,6 +348,7 @@ namespace test
 			notificationManager.Notify(notificationId, builder.Build());
 		}
 
+		#endregion
 	}
 }
 
