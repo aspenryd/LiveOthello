@@ -13,6 +13,7 @@ using System.Threading;
 using Android.Net;
 using Android.Support.V4.App;
 using Java.Lang;
+using Android.Media;
 
 
 namespace test
@@ -21,20 +22,17 @@ namespace test
 	public class MainActivity : Activity
 	{
 		#region fields
-		private static readonly int NewGameNotificationId = 1000;
-		private static readonly int NewTournamentNotificationId = 1001;
+		private static readonly int NewGameNotificationId = 2000;
+		private static readonly int NewTournamentNotificationId = 1000;
 		private const int menuItemInfo = 0;
 		private const int menuItemSettings = 1;
 		private const int menuItemUpdate = 2;
+		private DateTime LastUpdateCheck;
+		private int minTimeBetweenUpdates = 60;  //seconds
 
 		System.Timers.Timer _timer;
-
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
-
-		DateTime LastUpdateCheck;
-
-		int minTimeBetweenUpdates = 60;  //seconds
 
 		#endregion
 
@@ -52,10 +50,32 @@ namespace test
 				ViewGame();
 			};
 
+//			var btnSettings = FindViewById<Button> (Resource.Id.btnSettings);
+//			btnSettings.Click += (sender, e) => {
+//				AddTournament();
+//				AddGame();
+//			};
+
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
 
 			CreateTimerForUpdates ();
 		}
+
+//		int tournamentNumber = 0;
+//
+//		void AddTournament ()
+//		{
+//			tournamentNumber++;
+//			NotifyNewTournament(new Tournament() {Id = tournamentNumber, Name = string.Format("Fake Tournament {0}", tournamentNumber)});
+//		}
+//
+//		int gameNumber = 0;
+//
+//		void AddGame ()
+//		{
+//			gameNumber++;
+//			NotifyNewGame (new Game () { Id = gameNumber, Name = string.Format ("Fake Game {0}", gameNumber) });
+//		}
 
 
 		#region public methods
@@ -72,8 +92,8 @@ namespace test
 		{
 			//var menuitemInfo = menu.Add(0,menuItemInfo,0,"Info");
 			//menuitemInfo.SetIcon(Resource.Drawable.menu_info);
-			//var menuitemSettings = menu.Add(0,menuItemSettings,1,"Settings");
-			//menuitemSettings.SetIcon(Resource.Drawable.menu_settings);
+			var menuitemSettings = menu.Add(0,menuItemSettings,1,"Settings");
+			menuitemSettings.SetIcon(Resource.Drawable.menu_settings);
 			menu.Add(0,menuItemUpdate,2,"Check for new games").SetIcon(Resource.Drawable.menu_update);
 			return base.OnCreateOptionsMenu (menu);
 		}
@@ -114,6 +134,13 @@ namespace test
 
 		}
 
+		LocalStorage localStorage {
+			get
+			{ 
+				return new LocalStorage (this.ApplicationContext);
+			}
+		}
+
 		#endregion
 
 
@@ -131,7 +158,7 @@ namespace test
 			var newtournaments = AndroidConnectivity.GetTournaments ();
 			foreach (var tournament in newtournaments) 
 			{
-				if (!tournaments.Contains (tournament)) 
+				if (!tournaments.Any (t=>t.Id == tournament.Id)) 
 				{
 					NotifyNewTournament (tournament);
 					tournaments = newtournaments;
@@ -144,7 +171,7 @@ namespace test
 
 		protected void SaveTournamentsAndUpdateTournamentSpinner ()
 		{
-			var localStorage = new LocalStorage ();
+
 			localStorage.SaveTournamentsToStorage (this.ApplicationContext, tournaments);
 			UpdateTournamentSpinner ();
 		}
@@ -154,7 +181,6 @@ namespace test
 		{
 			if (tournaments == null) 
 			{
-				var localStorage = new LocalStorage ();
 				if (!localStorage.LoadTournamentsFromStorage (this.ApplicationContext, out tournaments)) 
 				{
 					if (IsConnected) {
@@ -170,13 +196,12 @@ namespace test
 		{
 			if (tournament.Games == null) 
 			{
-				var localStorage = new LocalStorage ();
-				if (!localStorage.LoadGamesFromStorage (this.ApplicationContext, tournament)) 
+				if (!localStorage.LoadGamesFromStorage (tournament)) 
 				{
 					if (IsConnected) 
 					{
 						tournament.Games = AndroidConnectivity.GetGamesFromTournament (tournament.Id);
-						localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+						localStorage.SaveGamesToStorage (tournament);
 					}
 				}
 			}
@@ -196,7 +221,7 @@ namespace test
 			var newgames = AndroidConnectivity.GetGamesFromTournament (tournament.Id).ToList ();
 			foreach (var game in newgames) 
 			{
-				if (!tournament.Games.Contains (game)) 
+				if (!tournament.Games.Any (g=>g.Id == game.Id)) 
 				{
 					NotifyNewGame (game);
 					tournament.Games = games;
@@ -209,8 +234,7 @@ namespace test
 
 		protected void SaveGamesAndUpdateGameSpinner (Tournament tournament, bool updateSpinner)
 		{
-			var localStorage = new LocalStorage ();
-			localStorage.SaveGamesToStorage (this.ApplicationContext, tournament);
+			localStorage.SaveGamesToStorage (tournament);
 			if (updateSpinner)
 				UpdateGameSpinner (tournament.Games);
 		}
@@ -262,7 +286,8 @@ namespace test
 
 		void ViewSettings ()
 		{
-			//throw new NotImplementedException ();
+			var settings = new Intent (this, typeof(SettingsActivity));
+			StartActivity (settings);
 		}
 
 		protected void UpdateTournamentSpinner ()
@@ -283,6 +308,8 @@ namespace test
 		{
 			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
 			FillSpinner (gamesspinner, games);
+			var gamebutton = FindViewById<Button> (Resource.Id.btnGame);
+			gamebutton.Enabled = games.Count() > 0;
 		}
 
 		protected void FillSpinner(Spinner spinner, IEnumerable<Game> items)
@@ -318,12 +345,36 @@ namespace test
 
 		protected void NotifyNewGame(Game game)
 		{
-			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, NewGameNotificationId);
+			int id = NewGameNotificationId;
+			switch (localStorage.GamesNotificationType) 
+			{
+				case NotificationType.None:
+					return;
+				case NotificationType.One:
+					id = NewGameNotificationId;
+					break;
+				case NotificationType.Every:
+					id = NewGameNotificationId + game.Id;
+					break;
+			}
+			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, id);
 		}
 
 		protected void NotifyNewTournament(Tournament tournament)
 		{
-			CreateNotification ("New LiveOthello tournament", tournament.Name, Resource.Drawable.tournament_small, NewTournamentNotificationId);
+			int id = NewTournamentNotificationId;
+			switch (localStorage.TournamentNotificationType) 
+			{
+				case NotificationType.None:
+				return;
+				case NotificationType.One:
+				id = NewTournamentNotificationId;
+				break;
+				case NotificationType.Every:
+				id = NewTournamentNotificationId + tournament.Id;
+				break;
+			}
+			CreateNotification ("New LiveOthello tournament", tournament.Name, Resource.Drawable.tournament_small, id);
 		}
 
 		protected void CreateNotification(string title, string text, int icon, int notificationId)
@@ -336,12 +387,27 @@ namespace test
 
 			PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
 
-			Android.Support.V4.App.NotificationCompat.Builder builder = new Android.Support.V4.App.NotificationCompat.Builder(this)
+			var builder = new Android.Support.V4.App.NotificationCompat.Builder(this)
 					.SetAutoCancel(true) // dismiss the notification from the notification area when the user clicks on it
 					.SetContentIntent(resultPendingIntent) // start up this activity when the user clicks the intent.
 					.SetContentTitle(title)
 					.SetSmallIcon(icon)
 					.SetContentText(text);
+
+			if (localStorage.NotificationSound) {
+				Android.Net.Uri alarmSound = RingtoneManager.GetDefaultUri (RingtoneType.Notification);
+				builder.SetSound (alarmSound);
+			}
+
+			if (localStorage.NotificationVibration) {
+				long[] pattern = {500,500};
+				builder.SetVibrate(pattern);
+			}
+
+			if (localStorage.NotificationLight) {
+				int red = 0x0000ff;
+				builder.SetLights(red, 500, 500);
+			}
 
 			// Obtain a reference to the NotificationManager
 			var notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
@@ -351,6 +417,7 @@ namespace test
 		#endregion
 	}
 }
+
 
 
 

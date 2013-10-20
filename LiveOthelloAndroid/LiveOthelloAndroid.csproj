@@ -54,6 +54,7 @@
     <Compile Include="ViewGameActivity.cs" />
     <Compile Include="LocalStorage.cs" />
     <Compile Include="AndroidConnectivity.cs" />
+    <Compile Include="SettingsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -75,6 +76,7 @@
     <AndroidResource Include="Resources\drawable\menu_settings.png" />
     <AndroidResource Include="Resources\drawable\menu_update.png" />
     <AndroidResource Include="Resources\drawable\ic_title_share_default.png" />
+    <AndroidResource Include="Resources\layout\Settings.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -36,4 +36,16 @@
         android:layout_gravity="center"
         android:layout_marginRight="0.0dp"
         android:ems="10" />
+<!--    <Button
+        android:background="@drawable/buttonstyle"
+        style="@style/button_text"
+        android:text="Settings"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSettings"
+        android:layout_marginTop="0.0dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="0.0dp"
+        android:ems="10" />-->
 </LinearLayout>
