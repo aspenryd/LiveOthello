@@ -224,7 +224,7 @@ namespace test
 				if (!tournament.Games.Any (g=>g.Id == game.Id)) 
 				{
 					NotifyNewGame (game);
-					tournament.Games = games;
+					tournament.Games = newgames;
 					return true;
 				}
 			}
