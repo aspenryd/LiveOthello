@@ -59,7 +59,7 @@ namespace test
 
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
 
-			CreateTimerForUpdates ();
+			//CreateTimerForUpdates ();
 		}
 
 //		int tournamentNumber = 0;
