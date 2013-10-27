@@ -47,6 +47,7 @@ namespace test
 
 			var btnShowGame = FindViewById<Button> (Resource.Id.btnGame);
 			btnShowGame.Click += (sender, e) => {
+
 				ViewGame();
 			};
 
@@ -272,6 +273,8 @@ namespace test
 			if (gamesspinner.Count > 0 && gamesspinner.SelectedItemPosition >= 0) {
 				var game = games [gamesspinner.SelectedItemPosition];
 
+				NotifyNewGame (game);
+
 				var second = new Intent (this, typeof(ViewGameActivity));
 				second.PutExtra ("GameName", game.Name);
 				second.PutExtra ("GameId", game.Id.ToString ());
@@ -304,12 +307,13 @@ namespace test
 			spinner.Adapter = adapter;
 		}
 
-		protected void UpdateGameSpinner (IEnumerable<Game> games)
+		protected void UpdateGameSpinner (IEnumerable<Game> newgames)
 		{
 			Spinner gamesspinner = FindViewById<Spinner> (Resource.Id.gamesspinner);
-			FillSpinner (gamesspinner, games);
+			FillSpinner (gamesspinner, newgames);
+			games = newgames.ToList();
 			var gamebutton = FindViewById<Button> (Resource.Id.btnGame);
-			gamebutton.Enabled = games.Count() > 0;
+			gamebutton.Enabled = newgames.Count() > 0;
 		}
 
 		protected void FillSpinner(Spinner spinner, IEnumerable<Game> items)
@@ -357,7 +361,7 @@ namespace test
 					id = NewGameNotificationId + game.Id;
 					break;
 			}
-			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, id);
+			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, id, game);
 		}
 
 		protected void NotifyNewTournament(Tournament tournament)
@@ -377,9 +381,15 @@ namespace test
 			CreateNotification ("New LiveOthello tournament", tournament.Name, Resource.Drawable.tournament_small, id);
 		}
 
-		protected void CreateNotification(string title, string text, int icon, int notificationId)
+		protected void CreateNotification(string title, string text, int icon, int notificationId, Game game = null)
 		{
 			Intent resultIntent = new Intent(this, typeof(MainActivity));
+
+			if (game != null) {
+				resultIntent = new Intent(this, typeof(ViewGameActivity));
+				resultIntent.PutExtra ("GameName", game.Name);
+				resultIntent.PutExtra ("GameId", game.Id.ToString ());
+			}
 
 			var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
 			stackBuilder.AddParentStack(Class.FromType(typeof(MainActivity)));
