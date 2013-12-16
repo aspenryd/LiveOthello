@@ -16,19 +16,15 @@ using Java.Lang;
 using Android.Media;
 
 
-namespace test
+namespace LiveOthelloAndroid
 {
 	[Activity (Label = "LiveOthello", Icon = "@drawable/logo", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		#region fields
-		private static readonly int NewGameNotificationId = 2000;
-		private static readonly int NewTournamentNotificationId = 1000;
 		private const int menuItemInfo = 0;
 		private const int menuItemSettings = 1;
 		private const int menuItemUpdate = 2;
-		private DateTime LastUpdateCheck;
-		private int minTimeBetweenUpdates = 60;  //seconds
 
 		System.Timers.Timer _timer;
 		IList<Tournament> tournaments = null;
@@ -58,7 +54,6 @@ namespace test
 //			};
 
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
-
 			//CreateTimerForUpdates ();
 		}
 
@@ -252,14 +247,14 @@ namespace test
 			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament, true));
 		}
 
-		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
-		{
-			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
-			{
-				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames ());
-				LastUpdateCheck = DateTime.Now;
-			}
-		}
+//		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
+//		{
+//			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
+//			{
+//				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames ());
+//				LastUpdateCheck = DateTime.Now;
+//			}
+//		}
 
 
 		#endregion 
@@ -326,13 +321,13 @@ namespace test
 		#endregion
 
 		#region private methods
-		private void CreateTimerForUpdates ()
-		{
-			_timer = new System.Timers.Timer();
-			_timer.Interval = 1000; //Trigger event every second
-			_timer.Elapsed += OnTimedEvent;
-			_timer.Enabled = true;
-		}
+//		private void CreateTimerForUpdates ()
+//		{
+//			_timer = new System.Timers.Timer();
+//			_timer.Interval = 5000; //Trigger event every five seconds
+//			_timer.Elapsed += OnTimedEvent;
+//			_timer.Enabled = true;
+//		}
 
 		private void UpdateTournamentListAndTournamentsThatHaveGames ()
 		{
@@ -346,6 +341,8 @@ namespace test
 		#endregion
 
 		#region Notifications
+		private static readonly int NewGameNotificationId = 2000;
+		private static readonly int NewTournamentNotificationId = 1000;
 
 		protected void NotifyNewGame(Game game)
 		{

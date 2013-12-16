@@ -5,7 +5,7 @@ using othelloBase;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace test
+namespace LiveOthelloAndroid
 {
 	public enum NotificationType
 	{

@@ -12,7 +12,8 @@ using Android.Webkit;
 using System.Threading;
 using Android.Content.PM;
 
-namespace test
+
+namespace LiveOthelloAndroid
 {
 	[Activity (Label = "LiveOthello Settings", ScreenOrientation = ScreenOrientation.Portrait)]		
 	public class SettingsActivity : Activity
