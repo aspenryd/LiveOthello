@@ -271,6 +271,8 @@ namespace LiveOthelloAndroid
 				NotifyNewGame (game);
 
 				var second = new Intent (this, typeof(ViewGameActivity));
+				if (true)
+					second = new Intent (this, typeof(ViewGameNativeActivity));
 				second.PutExtra ("GameName", game.Name);
 				second.PutExtra ("GameId", game.Id.ToString ());
 				StartActivity (second);	
@@ -423,6 +425,8 @@ namespace LiveOthelloAndroid
 
 		#endregion
 	}
+
+
 }
 
 

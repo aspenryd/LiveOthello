@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:layout_weight="0">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6.0dp">
+            <Button
+                android:id="@+id/btnMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Game Menu"
+                android:background="@drawable/buttonstyle"
+                style="@style/button_text"
+                android:ems="6" />
+            <Button
+                android:id="@+id/btnViewChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Chat"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/buttonstyle"
+                style="@style/button_text"
+                android:ems="6" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutFlipper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_gravity="top"
+        android:layout_weight="1">
+        <ViewFlipper
+            android:minWidth="25px"
+            android:minHeight="500px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/viewFlipper1"
+            android:layout_marginBottom="0px">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6.0dp">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="6.0dp"
+                    android:gravity="center_horizontal">
+                    <GridView
+                        android:id="@+id/gridview"
+                        android:layout_width="332px"
+                        android:layout_height="332px"
+                        android:columnWidth="37dp"
+                        android:numColumns="8"
+                        android:verticalSpacing="0dp"
+                        android:horizontalSpacing="0dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        android:smoothScrollbar="false"
+                        android:fastScrollEnabled="false"
+                        android:scrollingCache="false"
+                        android:fastScrollAlwaysVisible="false"
+                        android:drawSelectorOnTop="false"
+                        android:background="#ff0f1f10"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdge="vertical"
+                        android:fadingEdgeLength="0dp"
+                        android:fitsSystemWindows="true"
+                        android:scrollbars="none"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        android:hapticFeedbackEnabled="false"
+                        android:isScrollContainer="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dp">
+                    <Button
+                        android:id="@+id/btnMoveFirst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First"
+                        android:background="@drawable/buttonstyle"
+                        style="@style/button_text"
+                        android:ems="3" />
+                    <Button
+                        android:id="@+id/btnMovePrior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prior"
+                        android:background="@drawable/buttonstyle"
+                        style="@style/button_text"
+                        android:ems="3" />
+                    <Button
+                        android:id="@+id/btnMoveNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/buttonstyle"
+                        style="@style/button_text"
+                        android:ems="3" />
+                    <Button
+                        android:id="@+id/btnMoveLast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/buttonstyle"
+                        style="@style/button_text"
+                        android:ems="3" />
+                </LinearLayout>
+            </LinearLayout>
+            <WebView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/webView2" />
+        </ViewFlipper>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutNews"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_weight="0" />
+</LinearLayout>

@@ -44,6 +44,8 @@
     <Compile Include="Classes.cs" />
     <Compile Include="LiveOthelloService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OthelloGame.cs" />
+    <Compile Include="SquareType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

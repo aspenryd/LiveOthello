@@ -45,34 +45,43 @@ namespace LiveOthelloAndroid
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int buttonstyle = 2130837504;
+			public const int black_disc = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int game = 2130837505;
+			public const int buttonstyle = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int game_small = 2130837506;
+			public const int empty_disc = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int ic_title_share_default = 2130837507;
+			public const int game = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int Icon = 2130837508;
+			public const int game_small = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int logo = 2130837509;
+			public const int ic_title_share_default = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int menu_info = 2130837510;
+			public const int Icon = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int menu_settings = 2130837511;
+			public const int logo = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int menu_update = 2130837512;
+			public const int menu_info = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int tournament_small = 2130837513;
+			public const int menu_settings = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int menu_update = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int tournament_small = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int white_disc = 2130837516;
 			
 			static Drawable()
 			{
@@ -93,6 +102,18 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060012
 			public const int btnMenu = 2131099666;
 			
+			// aapt resource value: 0x7f060019
+			public const int btnMoveFirst = 2131099673;
+			
+			// aapt resource value: 0x7f06001c
+			public const int btnMoveLast = 2131099676;
+			
+			// aapt resource value: 0x7f06001b
+			public const int btnMoveNext = 2131099675;
+			
+			// aapt resource value: 0x7f06001a
+			public const int btnMovePrior = 2131099674;
+			
 			// aapt resource value: 0x7f060013
 			public const int btnViewChange = 2131099667;
 			
@@ -104,6 +125,9 @@ namespace LiveOthelloAndroid
 			
 			// aapt resource value: 0x7f060003
 			public const int gamesspinner = 2131099651;
+			
+			// aapt resource value: 0x7f060018
+			public const int gridview = 2131099672;
 			
 			// aapt resource value: 0x7f060011
 			public const int layoutButtons = 2131099665;
@@ -180,6 +204,9 @@ namespace LiveOthelloAndroid
 			
 			// aapt resource value: 0x7f030002
 			public const int ViewGame = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int ViewGameNative = 2130903043;
 			
 			static Layout()
 			{

@@ -18,7 +18,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidLinkSkip>mscorlib</AndroidLinkSkip>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -39,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,6 +55,8 @@
     <Compile Include="LocalStorage.cs" />
     <Compile Include="AndroidConnectivity.cs" />
     <Compile Include="SettingsActivity.cs" />
+    <Compile Include="ViewGameNativeActivity.cs" />
+    <Compile Include="Resources\ImageAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -77,6 +79,10 @@
     <AndroidResource Include="Resources\drawable\menu_update.png" />
     <AndroidResource Include="Resources\drawable\ic_title_share_default.png" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
+    <AndroidResource Include="Resources\layout\ViewGameNative.axml" />
+    <AndroidResource Include="Resources\drawable\black_disc.png" />
+    <AndroidResource Include="Resources\drawable\white_disc.png" />
+    <AndroidResource Include="Resources\drawable\empty_disc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
