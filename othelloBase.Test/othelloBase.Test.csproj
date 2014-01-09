@@ -50,7 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="OthelloGameTests.cs" />
+    <Compile Include="MoveTests.cs" />
+    <Compile Include="MoveListTests.cs" />
+    <Compile Include="OthelloBoardTests.cs" />
     <Compile Include="LiveOthelloService.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

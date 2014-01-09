@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace othelloBase.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class LiveOthelloTests
     {
         [TestMethod]
         public void GetTournaments_RetrievesTournaments()
@@ -15,7 +15,7 @@ namespace othelloBase.Test
             var stop = DateTime.Now;
             Assert.IsNotNull(tournaments);
             Assert.IsTrue(tournaments.Any());
-            Assert.AreEqual(29, tournaments.Count());
+            Assert.AreEqual(35, tournaments.Count());
             Assert.IsTrue((stop-start).Milliseconds <= 300, string.Format("Time exceeded 300ms, it took {0}ms",(stop-start).Milliseconds));
         }
 
