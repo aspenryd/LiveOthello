@@ -21,10 +21,12 @@ namespace LiveOthelloAndroid
 		const string parameterNotificationLight = "NotificationLight";
 		const string parameterTournamentNotificationType = "NotificationTournamentType";
 		const string parameterGamesNotificationType = "NotificationGamesType";
+		const string parameterUseLocalViewer = "UseLocalViewer";
 
 		private bool notificationSound;
 		private bool notificationVibration;
 		private bool notificationLight;
+		private bool useLocalViewer;
 
 		NotificationType tournamentNotificationType;
 		NotificationType gamesNotificationType;
@@ -37,6 +39,7 @@ namespace LiveOthelloAndroid
 			notificationSound = GetPrefs (parameterNotificationSound, true);
 			notificationVibration = GetPrefs (parameterNotificationVibration, true);
 			notificationLight = GetPrefs (parameterNotificationLight, true);
+			useLocalViewer = GetPrefs (parameterUseLocalViewer, false);
 			tournamentNotificationType = (NotificationType)GetPrefs (parameterTournamentNotificationType, (int)NotificationType.Every);
 			gamesNotificationType = (NotificationType)GetPrefs (parameterGamesNotificationType, (int)NotificationType.Every);
 		}
@@ -65,6 +68,15 @@ namespace LiveOthelloAndroid
 			{
 				notificationLight = value;
 				SetPrefs (parameterNotificationLight, notificationLight);
+			}
+		}
+
+		public bool UseLocalViewer { 
+			get {return useLocalViewer;}
+			set 
+			{
+				useLocalViewer = value;
+				SetPrefs (parameterUseLocalViewer, useLocalViewer);
 			}
 		}
 

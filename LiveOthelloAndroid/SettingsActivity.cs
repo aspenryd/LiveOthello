@@ -56,6 +56,12 @@ namespace LiveOthelloAndroid
 			rgGames.CheckedChange += (o, e) => {
 				localstorage.GamesNotificationType = GrgId2Nt(rgGames.CheckedRadioButtonId);
 			};
+
+			var cbUseLocalViewer = FindViewById<CheckBox> (Resource.Id.cbUseLocalViewer);
+			cbUseLocalViewer.Checked = localstorage.UseLocalViewer;
+			cbUseLocalViewer.CheckedChange += (o, e) => {
+				localstorage.UseLocalViewer = cbUseLocalViewer.Checked;
+			};
 		}
 
 		int Tnt2RgId (NotificationType notificationType)

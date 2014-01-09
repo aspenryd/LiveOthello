@@ -9,35 +9,35 @@ namespace othelloBase
 
     public class OthelloBoard
     {
-        private Enumerations[] squares;
+        private SquareType[] squares;
 
-        public Enumerations[] Squares
+        public SquareType[] Squares
         {
             get { return squares; }
             set { squares = value; }
         }
 
-        private Enumerations nextColor;
+        private SquareType nextColor;
         
 
-        public Enumerations NextColor
+        public SquareType NextColor
         {
             get { return nextColor; }
             set { nextColor = value; }
         }
 
-        public int NumberOfBlackDiscs { get { return DiscsOfColor(Enumerations.Black); } }
-        public int NumberOfWhiteDiscs { get { return DiscsOfColor(Enumerations.White); } }
-        public int NumberOfEmptyDiscs { get { return DiscsOfColor(Enumerations.Empty); } }
+        public int NumberOfBlackDiscs { get { return DiscsOfColor(SquareType.Black); } }
+        public int NumberOfWhiteDiscs { get { return DiscsOfColor(SquareType.White); } }
+        public int NumberOfEmptyDiscs { get { return DiscsOfColor(SquareType.Empty); } }
 
         public bool GameFinished
         {
             get
             {
-                if (NextColor == Enumerations.Empty) return true;
+                if (NextColor == SquareType.Empty) return true;
                 if (PossibleMoves(NextColor) > 0) return false;
                 if (PossibleMoves(ChangeColor(NextColor)) > 0) return false;
-                NextColor = Enumerations.Empty;
+                NextColor = SquareType.Empty;
                 return true;
             }
         }
@@ -62,55 +62,64 @@ namespace othelloBase
         
 
 
-        private int DiscsOfColor(Enumerations color)
+        private int DiscsOfColor(SquareType color)
         {
             return Squares.ToList().Where(s => s == color).Count();
         }
 
-        public static Enumerations[] NewStartingBoard()
+        public static SquareType[] NewStartingBoard()
         {
-            var board = new Enumerations[64];
+            var board = new SquareType[64];
             for (var i = 0; i < board.Length; i++)
             {
-                board[i] = Enumerations.Empty;
+                board[i] = SquareType.Empty;
             }
-            board[27] = Enumerations.White;
-            board[28] = Enumerations.Black;
-            board[35] = Enumerations.Black;
-            board[36] = Enumerations.White;            
+            board[27] = SquareType.White;
+            board[28] = SquareType.Black;
+            board[35] = SquareType.Black;
+            board[36] = SquareType.White;            
             return board;
         }
 
         public OthelloBoard()
         {
-            squares = NewStartingBoard();
-            nextColor = Enumerations.Black;
+            ResetBoard();
         }
 
         public OthelloBoard(string movelist)
         {
-            squares = NewStartingBoard();
-            nextColor = Enumerations.Black;
+            ResetBoard();
             BuildBoardFromMoveList(movelist);
         }
 
-        public static Enumerations ChangeColor(Enumerations color)
+        public static SquareType ChangeColor(SquareType color)
         {
-            return color == Enumerations.Black ? Enumerations.White : Enumerations.Black;
+            return color == SquareType.Black ? SquareType.White : SquareType.Black;
         }
 
-        public OthelloBoard BuildBoardFromMoveList(string movelist, int movenumber = -1)
+        public OthelloBoard BuildBoardFromMoveList(string moves, int movenumber = -1)
         {
-            var moves = new MoveList(movelist);
-            if (movenumber == -1 || movenumber >= moves.List.Count)
-                movenumber = moves.List.Count;
+            return BuildBoardFromMoveList(new MoveList(moves), movenumber);
+        }
+
+        public OthelloBoard BuildBoardFromMoveList(MoveList movelist, int movenumber = -1)
+        {
+			ResetBoard();
+            if (movenumber == -1 || movenumber >= movelist.List.Count)
+                movenumber = movelist.List.Count;
             if (movenumber < 0)
                 movenumber = 0;
             for (int i = 0; i < movenumber; i++)
-            {                
-                MakeMove(moves.List[i]);
+            {
+                MakeMove(movelist.List[i]);
             }
             return this;
+        }
+
+        private void ResetBoard()
+        {
+            squares = NewStartingBoard();
+            NextColor = SquareType.Black;
         }
 
         public IList<Move> MakeMove(string move)
@@ -120,7 +129,7 @@ namespace othelloBase
 
         public IList<Move> MakeMove(Move move)
         {
-            if (Squares[move.Position] != Enumerations.Empty)
+            if (Squares[move.Position] != SquareType.Empty)
                 throw new ValidationException(string.Format("Unvalid move, square {0} are not empty", move.AsString));
             var flippedDiscs = GetNeighboursThatShouldBeFlipped(move);
             if (flippedDiscs.Count == 0)
@@ -138,7 +147,7 @@ namespace othelloBase
 
         }
 
-        private void SetNextMoveColor(Enumerations currentColor)
+        private void SetNextMoveColor(SquareType currentColor)
         {
             var oppositeColor = ChangeColor(nextColor);
             if (PossibleMoves(oppositeColor) > 0)
@@ -146,17 +155,17 @@ namespace othelloBase
             else if (PossibleMoves(currentColor) > 0)
                 nextColor = currentColor;
             else
-                nextColor = Enumerations.Empty;
+                nextColor = SquareType.Empty;
         }
 
-        public int PossibleMoves(Enumerations color = Enumerations.Empty)
+        public int PossibleMoves(SquareType color = SquareType.Empty)
         {
-            if (NextColor == Enumerations.Empty) return 0;
-            if (color == Enumerations.Empty) color = NextColor;
+            if (NextColor == SquareType.Empty) return 0;
+            if (color == SquareType.Empty) color = NextColor;
             var possibleMoves = 0;
             for (int i = 0; i < 64; i++)
             {
-                if (Squares[i] == Enumerations.Empty && GetNeighboursThatShouldBeFlipped(new Move(i), color).Count > 0)
+                if (Squares[i] == SquareType.Empty && GetNeighboursThatShouldBeFlipped(new Move(i), color).Count > 0)
                     possibleMoves++;
             }
             return possibleMoves;
@@ -210,10 +219,10 @@ namespace othelloBase
             }
         }
 
-        public IList<Move> GetNeighboursThatShouldBeFlipped(Move move, Enumerations movecolor = Enumerations.Empty)
+        public IList<Move> GetNeighboursThatShouldBeFlipped(Move move, SquareType movecolor = SquareType.Empty)
         {
             var flippedNeighbours = new List<Move>();
-            var color = movecolor == Enumerations.Empty ? nextColor : movecolor;
+            var color = movecolor == SquareType.Empty ? nextColor : movecolor;
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
@@ -251,12 +260,12 @@ namespace othelloBase
             }
         }
 
-        public static Enumerations CharToSquareType(char position)
+        public static SquareType CharToSquareType(char position)
         {
             position = char.ToLower(position);
-            if (position == 'x') return Enumerations.Black;
-            if (position == 'o') return Enumerations.White;
-            if (position == '-' || position == ' ') return Enumerations.Empty;
+            if (position == 'x') return SquareType.Black;
+            if (position == 'o') return SquareType.White;
+            if (position == '-' || position == ' ') return SquareType.Empty;
             throw new ValidationException(string.Format("Unvalid char for position {0}, only x, o and - or space are valid", position));
         }
     }

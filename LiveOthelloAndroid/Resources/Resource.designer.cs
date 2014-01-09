@@ -99,23 +99,23 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060004
 			public const int btnGame = 2131099652;
 			
-			// aapt resource value: 0x7f060012
-			public const int btnMenu = 2131099666;
-			
-			// aapt resource value: 0x7f060019
-			public const int btnMoveFirst = 2131099673;
-			
-			// aapt resource value: 0x7f06001c
-			public const int btnMoveLast = 2131099676;
-			
-			// aapt resource value: 0x7f06001b
-			public const int btnMoveNext = 2131099675;
+			// aapt resource value: 0x7f060013
+			public const int btnMenu = 2131099667;
 			
 			// aapt resource value: 0x7f06001a
-			public const int btnMovePrior = 2131099674;
+			public const int btnMoveFirst = 2131099674;
 			
-			// aapt resource value: 0x7f060013
-			public const int btnViewChange = 2131099667;
+			// aapt resource value: 0x7f06001d
+			public const int btnMoveLast = 2131099677;
+			
+			// aapt resource value: 0x7f06001c
+			public const int btnMoveNext = 2131099676;
+			
+			// aapt resource value: 0x7f06001b
+			public const int btnMovePrior = 2131099675;
+			
+			// aapt resource value: 0x7f060014
+			public const int btnViewChange = 2131099668;
 			
 			// aapt resource value: 0x7f060006
 			public const int cbNotificationSound = 2131099654;
@@ -123,17 +123,20 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060007
 			public const int cbNotificationVibration = 2131099655;
 			
+			// aapt resource value: 0x7f060011
+			public const int cbUseLocalViewer = 2131099665;
+			
 			// aapt resource value: 0x7f060003
 			public const int gamesspinner = 2131099651;
 			
-			// aapt resource value: 0x7f060018
-			public const int gridview = 2131099672;
+			// aapt resource value: 0x7f060019
+			public const int gridview = 2131099673;
 			
-			// aapt resource value: 0x7f060011
-			public const int layoutButtons = 2131099665;
+			// aapt resource value: 0x7f060012
+			public const int layoutButtons = 2131099666;
 			
-			// aapt resource value: 0x7f060014
-			public const int layoutFlipper = 2131099668;
+			// aapt resource value: 0x7f060015
+			public const int layoutFlipper = 2131099669;
 			
 			// aapt resource value: 0x7f060005
 			public const int layoutNews = 2131099653;
@@ -174,14 +177,14 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060001
 			public const int tournamentspinner = 2131099649;
 			
-			// aapt resource value: 0x7f060015
-			public const int viewFlipper1 = 2131099669;
-			
 			// aapt resource value: 0x7f060016
-			public const int webView1 = 2131099670;
+			public const int viewFlipper1 = 2131099670;
 			
 			// aapt resource value: 0x7f060017
-			public const int webView2 = 2131099671;
+			public const int webView1 = 2131099671;
+			
+			// aapt resource value: 0x7f060018
+			public const int webView2 = 2131099672;
 			
 			static Id()
 			{

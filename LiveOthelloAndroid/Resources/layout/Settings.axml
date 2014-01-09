@@ -97,4 +97,9 @@
             android:layout_marginLeft="5dp"
             android:id="@+id/rbGamesEvery" />
     </RadioGroup>
+    <CheckBox
+        android:text="Use local viewer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbUseLocalViewer" />
 </LinearLayout>

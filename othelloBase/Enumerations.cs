@@ -1,7 +1,7 @@
 
 namespace othelloBase
 {
-	public enum Enumerations
+	public enum SquareType
 	{
 		Empty = 0,
 		Black = 1,

@@ -16,6 +16,11 @@ namespace LiveOthelloAndroid
 		{
 			return new LiveOthelloService ().GetGamesFromTournament (id);
 		}
+
+		public static GameInfo GetGameInfo (int id)
+		{
+			return new LiveOthelloService ().GetGameInfoFromId (id);
+		}
 	}
 }
 

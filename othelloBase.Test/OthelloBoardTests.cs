@@ -162,7 +162,7 @@ namespace othelloBase.Test
         public void OthelloBoard_GetFlippedNeighbourList_start_WorksOk()
         {
             var board = new OthelloBoard();
-            var neigbourList = board.GetNeighboursThatShouldBeFlipped(new Move("C4"), Enumerations.Black);
+            var neigbourList = board.GetNeighboursThatShouldBeFlipped(new Move("C4"), SquareType.Black);
             Assert.IsTrue(neigbourList.Count == 1);
             Assert.IsTrue(neigbourList.Contains(new Move("D4")));            
         }
@@ -176,11 +176,11 @@ namespace othelloBase.Test
             
             for (int i = 0; i <= 63; i++)
             {
-                board.Squares[i] = new Move(i).IsEdgePiece ? Enumerations.White : Enumerations.Black;
+                board.Squares[i] = new Move(i).IsEdgePiece ? SquareType.White : SquareType.Black;
             }
-            board.Squares[move.Position] = Enumerations.Empty;
+            board.Squares[move.Position] = SquareType.Empty;
 
-            var neigbourList = board.GetNeighboursThatShouldBeFlipped(move, Enumerations.White);
+            var neigbourList = board.GetNeighboursThatShouldBeFlipped(move, SquareType.White);
             Assert.AreEqual(19, neigbourList.Count);
         }
 
@@ -220,24 +220,24 @@ namespace othelloBase.Test
         public void OthelloBoard_PossibleMoves_WorksOk()
         {
             var board = new OthelloBoard();
-            Assert.AreEqual(4, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(4, board.PossibleMoves(Enumerations.White));
+            Assert.AreEqual(4, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(4, board.PossibleMoves(SquareType.White));
             board.MakeMove(new Move("C4"));
-            Assert.AreEqual(3, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(3, board.PossibleMoves(Enumerations.White));
+            Assert.AreEqual(3, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(3, board.PossibleMoves(SquareType.White));
             board.MakeMove(new Move("E3"));
-            Assert.AreEqual(5, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(4, board.PossibleMoves(Enumerations.White));
+            Assert.AreEqual(5, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(4, board.PossibleMoves(SquareType.White));
         }
 
         [TestMethod]
         public void OthelloBoard_PossibleMoves_EarlyWipe_WorksOk()
         {
             var board = new OthelloBoard("f5d6c5f4e7f6g5e6");
-            Assert.AreEqual(7, board.PossibleMoves(Enumerations.Black));
+            Assert.AreEqual(7, board.PossibleMoves(SquareType.Black));
             board.MakeMove(new Move("e3"));
-            Assert.AreEqual(0, board.PossibleMoves(Enumerations.White));
-            Assert.AreEqual(0, board.PossibleMoves(Enumerations.Black));
+            Assert.AreEqual(0, board.PossibleMoves(SquareType.White));
+            Assert.AreEqual(0, board.PossibleMoves(SquareType.Black));
             Assert.AreEqual(true, board.GameFinished);
         }
 
@@ -245,20 +245,20 @@ namespace othelloBase.Test
         public void OthelloBoard_PossibleMoves_MultiplePass_WorksOk()
         {
             var board = new OthelloBoard("e6f6f5d6e7f7d7f8e8c7g8g5g6f4d8g4h4h5h6g7f3h3h8g3e3e2h7");
-            Assert.AreEqual(Enumerations.White, board.NextColor);
-            Assert.AreEqual(2, board.PossibleMoves(Enumerations.White));            
+            Assert.AreEqual(SquareType.White, board.NextColor);
+            Assert.AreEqual(2, board.PossibleMoves(SquareType.White));            
             board.MakeMove(new Move("d3"));
-            Assert.AreEqual(Enumerations.Black, board.NextColor);
-            Assert.AreEqual(15, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(0, board.PossibleMoves(Enumerations.White));
+            Assert.AreEqual(SquareType.Black, board.NextColor);
+            Assert.AreEqual(15, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(0, board.PossibleMoves(SquareType.White));
             board.MakeMove(new Move("c8"));
-            Assert.AreEqual(Enumerations.Black, board.NextColor);
-            Assert.AreEqual(14, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(0, board.PossibleMoves(Enumerations.White));
+            Assert.AreEqual(SquareType.Black, board.NextColor);
+            Assert.AreEqual(14, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(0, board.PossibleMoves(SquareType.White));
             board.MakeMove(new Move("b8"));
-            Assert.AreEqual(Enumerations.Black, board.NextColor);
-            Assert.AreEqual(11, board.PossibleMoves(Enumerations.Black));
-            Assert.AreEqual(0, board.PossibleMoves(Enumerations.White));            
+            Assert.AreEqual(SquareType.Black, board.NextColor);
+            Assert.AreEqual(11, board.PossibleMoves(SquareType.Black));
+            Assert.AreEqual(0, board.PossibleMoves(SquareType.White));            
         }
 
         [TestMethod]
@@ -316,14 +316,26 @@ namespace othelloBase.Test
         [TestMethod]
         public void OthelloBoard_CharToSquareType_WorksOk()
         {
-            Assert.AreEqual(Enumerations.Black, OthelloBoard.CharToSquareType('x'));
-            Assert.AreEqual(Enumerations.Black, OthelloBoard.CharToSquareType('X'));
-            Assert.AreEqual(Enumerations.White, OthelloBoard.CharToSquareType('o'));
-            Assert.AreEqual(Enumerations.White, OthelloBoard.CharToSquareType('O'));
-            Assert.AreEqual(Enumerations.Empty, OthelloBoard.CharToSquareType('-'));
-            Assert.AreEqual(Enumerations.Empty, OthelloBoard.CharToSquareType(' '));
+            Assert.AreEqual(SquareType.Black, OthelloBoard.CharToSquareType('x'));
+            Assert.AreEqual(SquareType.Black, OthelloBoard.CharToSquareType('X'));
+            Assert.AreEqual(SquareType.White, OthelloBoard.CharToSquareType('o'));
+            Assert.AreEqual(SquareType.White, OthelloBoard.CharToSquareType('O'));
+            Assert.AreEqual(SquareType.Empty, OthelloBoard.CharToSquareType('-'));
+            Assert.AreEqual(SquareType.Empty, OthelloBoard.CharToSquareType(' '));
         }
 
+
+        [TestMethod]
+        public void OthelloBoard_BuildBoardFromMoveList_WorksOk()
+        {
+            var movelist = new MoveList("d3c5f6f5e6e3c3f3c4b4b5d2a3d6c6b3c2e7f7d7f4g4d1g3g6g5e2a5f2a4a6c7b6f1f8e8h6c1h4e1h3g2a2g8h1b2a1b1g1h2c8d8h8h7g7a7a8h5b7b8");
+            var board = new OthelloBoard();
+
+            for (int i = 0; i < movelist.List.Count; i++)
+            {
+                board.BuildBoardFromMoveList(movelist, i);
+            }
+        }
 
 
         private string GetDrawBoardWithTwoEmpties()

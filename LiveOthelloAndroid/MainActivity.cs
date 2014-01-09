@@ -271,7 +271,7 @@ namespace LiveOthelloAndroid
 				NotifyNewGame (game);
 
 				var second = new Intent (this, typeof(ViewGameActivity));
-				if (true)
+				if (localStorage.UseLocalViewer)
 					second = new Intent (this, typeof(ViewGameNativeActivity));
 				second.PutExtra ("GameName", game.Name);
 				second.PutExtra ("GameId", game.Id.ToString ());
@@ -385,7 +385,11 @@ namespace LiveOthelloAndroid
 			Intent resultIntent = new Intent(this, typeof(MainActivity));
 
 			if (game != null) {
-				resultIntent = new Intent(this, typeof(ViewGameActivity));
+				if (localStorage.UseLocalViewer) {
+					resultIntent = new Intent (this, typeof(ViewGameNativeActivity));
+				} else {
+					resultIntent = new Intent (this, typeof(ViewGameActivity));
+				}
 				resultIntent.PutExtra ("GameName", game.Name);
 				resultIntent.PutExtra ("GameId", game.Id.ToString ());
 			}
