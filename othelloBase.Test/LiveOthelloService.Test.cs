@@ -76,5 +76,21 @@ namespace othelloBase.Test
             Assert.IsTrue(couldParse);            
             Assert.AreEqual("c4e3f4c5d6f3e6b4c3c6b3f6b6d3b5g4d7f5g5h6c7g6e7a3h5a4h3f7e8a5g3a6f2c8e2d8b8f8g8h4h7d2b7d1e1a8c1h8g7h2c2g1f1b1b2a1a2g2h1a7", moves);
         }
+
+        [TestMethod]
+        public void GetCharFromHTMLCode_ReturnsCorrrectChar()
+        {
+            Assert.AreEqual("'", LiveOthelloService.GetCharFromHTMLCode("&#39;"));
+            Assert.AreEqual("'", LiveOthelloService.GetCharFromHTMLCode("&#039;"));
+            Assert.AreEqual("(", LiveOthelloService.GetCharFromHTMLCode("&#040;"));
+        }
+
+        [TestMethod]
+        public void convertHtmlSignsInString_ReturnsCorrectString()
+        {
+            Assert.AreEqual("Fin d'Annee Grenoble", LiveOthelloService.convertHtmlSignsInString("Fin d&#039;Annee Grenoble"));
+            Assert.AreEqual("Fin d'Anne'e Grenoble", LiveOthelloService.convertHtmlSignsInString("Fin d&#039;Anne&#039;e Grenoble"));
+            Assert.AreEqual("Fin d>Anne*e Grenoble", LiveOthelloService.convertHtmlSignsInString("Fin d&#062;Anne&#042;e Grenoble"));
+        }
     }
 }

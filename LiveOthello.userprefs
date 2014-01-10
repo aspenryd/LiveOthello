@@ -1,15 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="251" Column="6" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="153" Column="18" />
       <File FileName="LiveOthelloAndroid\ViewGameNativeActivity.cs" Line="72" Column="38" />
       <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="32" Column="59" />
       <File FileName="LiveOthelloAndroid\Resources\ImageAdapter.cs" Line="33" Column="4" />
       <File FileName="othelloBase\Enumerations.cs" Line="16" Column="1" />
       <File FileName="c:\utv\github\LiveOthello\othelloBase\OthelloBoard.cs" Line="35" Column="24" />
-      <File FileName="othelloBase\LiveOthelloService.cs" Line="119" Column="5" />
-      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="164" Column="45" />
+      <File FileName="othelloBase\LiveOthelloService.cs" Line="114" Column="54" />
+      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="112" Column="6" />
       <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="51" Column="92" />
       <File FileName="LiveOthelloAndroid\AndroidConnectivity.cs" Line="24" Column="3" />
       <File FileName="othelloBase\Classes.cs" Line="41" Column="5" />

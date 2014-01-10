@@ -57,7 +57,7 @@ namespace othelloBase
             {
                 var strings = text.Remove(0, 7).Split('"');
                 id = int.Parse(strings[0]);
-                name = strings[1].Remove(0, 1).Replace("</a>", "");
+                name = convertHtmlSignsInString(strings[1].Remove(0, 1).Replace("</a>", ""));
             }
             catch (Exception)
             {
@@ -100,7 +100,7 @@ namespace othelloBase
             {
                 var strings = text.Remove(0, 7).Split('"');
                 id = int.Parse(strings[0]);
-                name = strings[1].Remove(0, 1).Replace("</a> ", "");
+                name = convertHtmlSignsInString(strings[1].Remove(0, 1).Replace("</a> ", ""));
             }
 			catch (Exception)
             {
@@ -109,6 +109,28 @@ namespace othelloBase
                 return false;
             }
             return true;
+        }
+
+        public static string convertHtmlSignsInString(string text)
+        {
+            Regex r = new Regex(@"&#[0-9]{2,3};");
+            MatchCollection mcl = r.Matches(text);
+            List<string> a = new List<string>();
+            foreach (Match ml in mcl)
+            {
+                text = text.Replace(ml.ToString(), GetCharFromHTMLCode(ml.ToString()));
+            }
+
+            return text;
+        }
+
+        public static string GetCharFromHTMLCode(string code)
+        {
+            if (code == "&#39;") return "'";
+            code = code.Trim('&', '#', ';');
+            var intcode = Int32.Parse(code);
+            var c = Convert.ToChar(intcode);
+            return c.ToString();
         }
 
         public GameInfo GetGameInfoFromId(int gameid)
