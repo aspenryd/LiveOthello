@@ -7,9 +7,14 @@ namespace othelloBase
     public class MoveList
     {
         private IList<Move> list = new List<Move>();
+
+        public MoveList()
+        {
+            list = new List<Move>();
+        }
+
         public MoveList(string listOfMoves)
         {
-            
             list = ConvertToMoveList(listOfMoves);
         }
 
@@ -21,8 +26,11 @@ namespace othelloBase
 
         public static IList<Move> ConvertToMoveList(string listOfMoves)
         {
+			var moves = new List<Move>();
+			if (string.IsNullOrWhiteSpace (listOfMoves))
+				return moves;
+
             ValidateListOfMoves(listOfMoves);
-            var moves = new List<Move>();
             for (int i = 0; i < listOfMoves.Length; i+=2)
             {
                 var move = new Move(listOfMoves.Substring(i, 2));
@@ -31,6 +39,11 @@ namespace othelloBase
                 moves.Add(move);
             }
             return moves;
+        }
+
+        public void UpdateList(string listOfMoves)
+        {
+            list = ConvertToMoveList(listOfMoves);
         }
 
         public IList<Move> List {

@@ -21,8 +21,14 @@ namespace LiveOthelloAndroid
 	{
 		GridView game_grid;
 		WebView chat_view;
+		LocalStorage localStorage;
 
 		ViewFlipper flippy;
+		OthelloBoard board;
+
+		int movenumber;
+
+		MoveList movelist;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -34,9 +40,6 @@ namespace LiveOthelloAndroid
 
 			game_grid = FindViewById<GridView> (Resource.Id.gridview);
 			game_grid.Adapter = new ImageAdapter (this);
-
-
-
 
 			chat_view = FindViewById<WebView> (Resource.Id.webView2);
 			chat_view.Settings.JavaScriptEnabled = true;
@@ -50,7 +53,6 @@ namespace LiveOthelloAndroid
 				this.Finish();
 			};
 
-
 			flippy = FindViewById<ViewFlipper> (Resource.Id.viewFlipper1);
 			var btnChange = FindViewById<TextView> (Resource.Id.btnViewChange);
 			btnChange.Click += (o, e) => {
@@ -60,54 +62,68 @@ namespace LiveOthelloAndroid
 				else
 					btnChange.Text = "View Chat";
 			};
+			localStorage = new LocalStorage (this.ApplicationContext);
+			board = new OthelloBoard ();
+			var intGameId = Int32.Parse(gameId);
 
-			var info = AndroidConnectivity.GetGameInfo (Int32.Parse(gameId));
+			GameInfo gameinfo = new GameInfo () { Id = intGameId };
+			localStorage.LoadGameInfoFromStorage (gameinfo);
+			movelist = new MoveList(gameinfo.Movelist);
+			board.BuildBoardFromMoveList (movelist);
 
-			var moveliststring = "d3c5f6f5e6e3c3f3c4b4b5d2a3d6c6b3c2e7f7d7f4g4d1g3g6g5e2a5f2a4a6c7b6f1f8e8h6c1h4e1h3g2a2g8h1b2a1b1g1h2c8d8h8h7g7a7a8h5b7b8";
-			if (info != null && info.Movelist != null)
-				moveliststring = info.Movelist;
-			var movelist = new MoveList(moveliststring);
-			var movenumber = 0;
-			OthelloBoard board = new OthelloBoard ();
+			if (!board.GameFinished) 
+			{
+				UpdateGameInfo (intGameId, movelist);
+			}
 
+			movenumber = movelist.List.Count;
 
 			var btnFirst = FindViewById<TextView> (Resource.Id.btnMoveFirst);
 			btnFirst.Click += (o, e) => {
 				movenumber = 0;
-				board.BuildBoardFromMoveList(movelist, movenumber);
-				(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
-				game_grid.InvalidateViews();
+				UpdateGame();
 			};
 
 			var btnPrior = FindViewById<TextView> (Resource.Id.btnMovePrior);
 			btnPrior.Click += (o, e) => {
 				movenumber--;
 				if (movenumber < 0 ) movenumber = 0;
-				board.BuildBoardFromMoveList(movelist, movenumber);
-				(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
-				game_grid.InvalidateViews();
+				UpdateGame();
 			};
 
 			var btnNext = FindViewById<TextView> (Resource.Id.btnMoveNext);
 			btnNext.Click += (o, e) => {
 				movenumber++;
 				if (movenumber > movelist.List.Count() ) movenumber = movelist.List.Count();
-				board.BuildBoardFromMoveList(movelist, movenumber);
-				(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
-				game_grid.InvalidateViews();
+				UpdateGame();
 			};
 
 			var btnLast = FindViewById<TextView> (Resource.Id.btnMoveLast);
 			btnLast.Click += (o, e) => {
 				movenumber = movelist.List.Count();				
-				board.BuildBoardFromMoveList(movelist, movenumber);
-				(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
-				game_grid.InvalidateViews();
+				UpdateGame();
 			};
 
-
+			UpdateGame ();
 		}
 
+		void UpdateGameInfo (int gameId, MoveList movelist)
+		{
+			var info = AndroidConnectivity.GetGameInfo (gameId);
+
+			if (info != null && info.Movelist != null) 
+			{
+				movelist.UpdateList(info.Movelist);
+				localStorage.SaveGameInfoToStorage (info);
+			}
+		}
+
+		void UpdateGame ()
+		{
+			board.BuildBoardFromMoveList(movelist, movenumber);
+			(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
+			game_grid.InvalidateViews();
+		}
 	}
 }
 

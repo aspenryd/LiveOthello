@@ -1,25 +1,34 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="othelloBase\OthelloGame.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\ViewGameNativeActivity.cs" Line="77" Column="39" />
-      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\Resources\ImageAdapter.cs" Line="54" Column="24" />
-      <File FileName="othelloBase\OthelloGame.cs" Line="246" Column="51" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="251" Column="6" />
+      <File FileName="LiveOthelloAndroid\ViewGameNativeActivity.cs" Line="72" Column="38" />
+      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="32" Column="59" />
+      <File FileName="LiveOthelloAndroid\Resources\ImageAdapter.cs" Line="33" Column="4" />
+      <File FileName="othelloBase\Enumerations.cs" Line="16" Column="1" />
+      <File FileName="c:\utv\github\LiveOthello\othelloBase\OthelloBoard.cs" Line="35" Column="24" />
+      <File FileName="othelloBase\LiveOthelloService.cs" Line="119" Column="5" />
+      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="164" Column="45" />
+      <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="51" Column="92" />
+      <File FileName="LiveOthelloAndroid\AndroidConnectivity.cs" Line="24" Column="3" />
+      <File FileName="othelloBase\Classes.cs" Line="41" Column="5" />
+      <File FileName="othelloBase\MoveList.cs" Line="33" Column="1" />
+      <File FileName="LiveOthelloAndroid\Resources\layout\ViewGameNative.axml" Line="32" Column="59" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="LiveOthelloAndroid" expanded="True">
+          <Node name="LiveOthelloAndroid" expanded="True" selected="True">
             <Node name="Resources" expanded="True">
               <Node name="layout" expanded="True" />
             </Node>
           </Node>
-          <Node name="othelloBase" expanded="True">
-            <Node name="OthelloGame.cs" selected="True" />
-          </Node>
+          <Node name="othelloBase" expanded="True" />
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -27,5 +36,5 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" AndroidDeviceId-Debug="emulator-5554" />
 </Properties>

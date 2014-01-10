@@ -158,6 +158,23 @@ namespace LiveOthelloAndroid
 			SetPrefs ("GamesFromTournament" + tournament.Id.ToString (), strTournaments);
 		}
 
+		public bool LoadGameInfoFromStorage(GameInfo gameinfo)
+		{
+			try{
+				if (gameinfo == null || gameinfo.Id < 0)
+					return false;
+				gameinfo.Movelist = GetPrefs("GameInfo"+gameinfo.Id.ToString(), "");
+				return !string.IsNullOrWhiteSpace(gameinfo.Movelist);
+			}
+			catch{
+				return false;
+			}
+		}
+
+		public void SaveGameInfoToStorage(GameInfo gameinfo)
+		{
+			SetPrefs ("GameInfo" + gameinfo.Id.ToString (), gameinfo.Movelist);
+		}
 
 
 		private void SetPrefs (string parameter, string value)

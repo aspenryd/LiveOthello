@@ -26,7 +26,7 @@ namespace LiveOthelloAndroid
 		private const int menuItemSettings = 1;
 		private const int menuItemUpdate = 2;
 
-		System.Timers.Timer _timer;
+		//		System.Timers.Timer _timer;
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
 
@@ -268,7 +268,7 @@ namespace LiveOthelloAndroid
 			if (gamesspinner.Count > 0 && gamesspinner.SelectedItemPosition >= 0) {
 				var game = games [gamesspinner.SelectedItemPosition];
 
-				NotifyNewGame (game);
+				//NotifyNewGame (game);
 
 				var second = new Intent (this, typeof(ViewGameActivity));
 				if (localStorage.UseLocalViewer)
@@ -337,6 +337,24 @@ namespace LiveOthelloAndroid
 			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
 			{
 				UpdateGamesFromSite (tournament, CurrentTournament.Id == tournament.Id);
+				if (localStorage.UseLocalViewer) {
+					foreach (var game in tournament.Games) {
+
+						UpdateGameInfoFromSite (game);
+					}
+				}
+			}
+		}
+
+		void UpdateGameInfoFromSite (Game game)
+		{
+			var gameinfo = new GameInfo () { Id = game.Id };
+			if (!localStorage.LoadGameInfoFromStorage (gameinfo)) 
+			{
+				var info = AndroidConnectivity.GetGameInfo (game.Id);
+				if (info != null && info.Movelist != null) {
+					localStorage.SaveGameInfoToStorage (info);
+				}
 			}
 		}
 

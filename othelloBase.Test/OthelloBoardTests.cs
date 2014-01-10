@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace othelloBase.Test
@@ -337,6 +338,36 @@ namespace othelloBase.Test
             }
         }
 
+        [TestMethod]
+        //[Ignore]
+        public void OthelloBoard_BuildBoardFromMoveList_PerformanceCheck()
+        {
+            var movelist = new MoveList("d3c5f6f5e6e3c3f3c4b4b5d2a3d6c6b3c2e7f7d7f4g4d1g3g6g5e2a5f2a4a6c7b6f1f8e8h6c1h4e1h3g2a2g8h1b2a1b1g1h2c8d8h8h7g7a7a8h5b7b8");
+            var board = new OthelloBoard();
+            var start = DateTime.Now;
+            for (int i = 0; i < 100; i++)
+            {
+                board.BuildBoardFromMoveList(movelist, i);
+            }
+            var stop = DateTime.Now;
+            Assert.IsTrue((stop-start).Milliseconds < 150, string.Format("Time exceeded 150ms, it took {0}ms", (stop - start).Milliseconds));
+        }
+
+
+
+        [TestMethod]
+        public void OthelloBoard_MoveList_WorksOk()
+        {
+            var movelist = new MoveList("d3c5f6f5e6e3");
+            var board = new OthelloBoard();
+            Assert.AreEqual(0, board.MoveList.List.Count);
+            board.BuildBoardFromMoveList(movelist);
+            Assert.AreEqual(movelist.List.Count, board.MoveList.List.Count);
+            board.MakeMove("c3");
+            Assert.AreEqual(movelist.List.Count+1, board.MoveList.List.Count);
+            board.ResetBoard();
+            Assert.AreEqual(0, board.MoveList.List.Count);
+        }
 
         private string GetDrawBoardWithTwoEmpties()
         {

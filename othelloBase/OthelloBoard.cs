@@ -18,7 +18,8 @@ namespace othelloBase
         }
 
         private SquareType nextColor;
-        
+        private MoveList movelist;
+
 
         public SquareType NextColor
         {
@@ -29,6 +30,9 @@ namespace othelloBase
         public int NumberOfBlackDiscs { get { return DiscsOfColor(SquareType.Black); } }
         public int NumberOfWhiteDiscs { get { return DiscsOfColor(SquareType.White); } }
         public int NumberOfEmptyDiscs { get { return DiscsOfColor(SquareType.Empty); } }
+
+        public int NumberOfMoves { get { return 64-DiscsOfColor(SquareType.Empty); } }
+		public MoveList MoveList { get { return movelist; } }
 
         public bool GameFinished
         {
@@ -116,10 +120,11 @@ namespace othelloBase
             return this;
         }
 
-        private void ResetBoard()
+        public void ResetBoard()
         {
             squares = NewStartingBoard();
             NextColor = SquareType.Black;
+            movelist = new MoveList();
         }
 
         public IList<Move> MakeMove(string move)
@@ -143,6 +148,7 @@ namespace othelloBase
             }
             squares[move.Position] = currentColor;
             SetNextMoveColor(currentColor);
+            movelist.List.Add(move);
             return flippedDiscs;
 
         }
