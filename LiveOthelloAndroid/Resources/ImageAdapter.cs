@@ -10,9 +10,17 @@ namespace LiveOthelloAndroid
 	{
 		Context context;
 
+		int colwidth = 40;
+
 		public ImageAdapter (Context c)
 		{
 			context = c;
+		}
+
+		public ImageAdapter (Context c, int width)
+		{
+			context = c;
+			colwidth = width;
 		}
 
 		public override int Count {
@@ -55,7 +63,7 @@ namespace LiveOthelloAndroid
 
 			if (convertView == null) {  // if it's not recycled, initialize some attributes
 				imageView = new ImageView (context);
-				imageView.LayoutParameters = new GridView.LayoutParams (40, 40);
+				imageView.LayoutParameters = new GridView.LayoutParams (colwidth, colwidth);
 				imageView.SetScaleType (ImageView.ScaleType.CenterCrop);
 				imageView.SetPadding (1, 1, 0, 0);
 			} else {

@@ -33,6 +33,15 @@
                 style="@style/button_text"
                 android:ems="6" />
         </RelativeLayout>
+        <TextView
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameName"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layoutFlipper"
@@ -86,11 +95,29 @@
                         android:hapticFeedbackEnabled="false"
                         android:isScrollContainer="false" />
                 </LinearLayout>
+                <TextView
+                    android:text="Move: 10   Black: 2   White: 2"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/positionInfo"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:gravity="center_horizontal" />
+                <TextView
+                    android:text="Game status"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/statusText"
+                    android:paddingBottom="10dp"
+                    android:gravity="center_horizontal" />
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6.0dp">
+                    android:layout_marginBottom="6.0dp"
+                    android:gravity="center_horizontal">
                     <Button
                         android:id="@+id/btnMoveFirst"
                         android:layout_width="wrap_content"

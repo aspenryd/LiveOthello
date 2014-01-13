@@ -72,7 +72,7 @@ namespace LiveOthelloAndroid
 		}
 
 		public bool UseLocalViewer { 
-			get {return useLocalViewer;}
+			get {return true;}
 			set 
 			{
 				useLocalViewer = value;

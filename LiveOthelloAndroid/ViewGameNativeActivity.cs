@@ -26,7 +26,19 @@ namespace LiveOthelloAndroid
 		ViewFlipper flippy;
 		OthelloBoard board;
 
+		TextView game_positioninfo;
+
+		TextView status_text;
+
+		int intGameId;
+
 		int movenumber;
+
+		DateTime lastUpdate;
+
+		bool haveSeenLastMove;
+
+		System.Timers.Timer _timer;
 
 		MoveList movelist;
 
@@ -37,15 +49,31 @@ namespace LiveOthelloAndroid
 			SetContentView (Resource.Layout.ViewGameNative);
 
 			var gameId = Intent.GetStringExtra("GameId") ?? "2552";
+			var gameName = Intent.GetStringExtra("GameName") ?? "";
+
+			var disp = WindowManager.DefaultDisplay;
+			int colwidth = (int)Math.Floor((disp.Width < disp.Height ? disp.Width : disp.Height) * 0.9 / 8);
+			int gridwidth = colwidth * 8 + 8;// +8 is for the padding
 
 			game_grid = FindViewById<GridView> (Resource.Id.gridview);
-			game_grid.Adapter = new ImageAdapter (this);
+			game_grid.LayoutParameters.Width = gridwidth;
+			game_grid.LayoutParameters.Height = gridwidth;
+			game_grid.Adapter = new ImageAdapter (this, colwidth);
 
 			chat_view = FindViewById<WebView> (Resource.Id.webView2);
 			chat_view.Settings.JavaScriptEnabled = true;
 			chat_view.LoadUrl ("http://chat.liveothello.com/server/getChat.php?GameID="+gameId);
 
 			chat_view.SetWebViewClient (new MyWebViewClient ());
+
+			var game_name = FindViewById<TextView> (Resource.Id.gameName);
+			game_name.Text = gameName;
+
+			status_text = FindViewById<TextView> (Resource.Id.statusText);
+
+			haveSeenLastMove = true;
+			game_positioninfo = FindViewById<TextView> (Resource.Id.positionInfo);
+			lastUpdate = DateTime.Now;
 
 
 			var btnMenu = FindViewById<TextView> (Resource.Id.btnMenu);
@@ -64,7 +92,7 @@ namespace LiveOthelloAndroid
 			};
 			localStorage = new LocalStorage (this.ApplicationContext);
 			board = new OthelloBoard ();
-			var intGameId = Int32.Parse(gameId);
+			intGameId = Int32.Parse(gameId);
 
 			GameInfo gameinfo = new GameInfo () { Id = intGameId };
 			localStorage.LoadGameInfoFromStorage (gameinfo);
@@ -95,27 +123,34 @@ namespace LiveOthelloAndroid
 			btnNext.Click += (o, e) => {
 				movenumber++;
 				if (movenumber > movelist.List.Count() ) movenumber = movelist.List.Count();
+				haveSeenLastMove = movenumber == movelist.List.Count();
 				UpdateGame();
 			};
 
 			var btnLast = FindViewById<TextView> (Resource.Id.btnMoveLast);
 			btnLast.Click += (o, e) => {
+				haveSeenLastMove = true;
 				movenumber = movelist.List.Count();				
 				UpdateGame();
 			};
 
 			UpdateGame ();
+			CreateTimerForUpdates ();
+			UpdateStatusText ();
 		}
 
-		void UpdateGameInfo (int gameId, MoveList movelist)
+		bool UpdateGameInfo (int gameId, MoveList movelist)
 		{
 			var info = AndroidConnectivity.GetGameInfo (gameId);
 
-			if (info != null && info.Movelist != null) 
+			if (info != null && info.Movelist != null && info.Movelist.ToUpper() != movelist.ToString()) 
 			{
 				movelist.UpdateList(info.Movelist);
 				localStorage.SaveGameInfoToStorage (info);
-			}
+				lastUpdate = DateTime.Now;
+				return true;
+			} else 
+				return false;
 		}
 
 		void UpdateGame ()
@@ -123,6 +158,48 @@ namespace LiveOthelloAndroid
 			board.BuildBoardFromMoveList(movelist, movenumber);
 			(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
 			game_grid.InvalidateViews();
+			game_positioninfo.Text = string.Format ("Move: {0}   Black: {1}   White: {2}", movenumber, board.NumberOfBlackDiscs, board.NumberOfWhiteDiscs);
+		}
+
+		private void CreateTimerForUpdates ()
+		{
+			_timer = new System.Timers.Timer();
+			_timer.Interval = 5000; //Trigger event every five seconds
+			_timer.Elapsed += OnTimedEvent;
+			_timer.Enabled = true;
+		}
+
+		bool IsAtLastMove ()
+		{
+			return movenumber == movelist.List.Count;
+		}
+
+		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
+		{
+			if (board.GameFinished) {
+				RunOnUiThread (() => UpdateStatusText());
+				return;
+			}
+
+			var isAtLastMove = IsAtLastMove();
+			var haveNewMove = UpdateGameInfo (intGameId, movelist);
+
+			if (isAtLastMove && haveNewMove) {
+				movenumber = movelist.List.Count ();				
+				RunOnUiThread (() => UpdateGame ());
+			}
+			if (haveNewMove)
+				haveSeenLastMove = isAtLastMove;
+			RunOnUiThread (() => UpdateStatusText());
+		}
+
+		void UpdateStatusText(){
+			if (board.GameFinished) {
+				status_text.Text = "Game is finished";
+				_timer.Enabled = false;
+			} else {
+				status_text.Text = string.Format ("{0}Last update was made {1} seconds ago", !haveSeenLastMove? "NEW MOVE! " : "",(DateTime.Now - lastUpdate).Seconds);
+			}
 		}
 	}
 }

@@ -50,5 +50,14 @@ namespace othelloBase
             get { return list; }
             set { list = value;}
         }
+
+		public string ToString()
+		{
+			var movestring = "";
+			foreach (var move in list) {
+				movestring += move.AsString;
+			}
+			return movestring;
+		}
     }
 }

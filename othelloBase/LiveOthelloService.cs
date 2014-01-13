@@ -16,24 +16,31 @@ namespace othelloBase
             using (WebClient wc = new WebClient())
             {
                 var tournaments = new List<Tournament>();
-                string aRequestHTML = wc.DownloadString("http://www.liveothello.com/mobile");
 
-
-                Regex r = new Regex(@"TourID[^>]*>(.*?)</a>");
-                MatchCollection mcl = r.Matches(aRequestHTML);
-                List<string> a = new List<string>();
-                foreach (Match ml in mcl)
-                {
-                    int id;
-                    string name;
-                    if (ParseIdAndNameFromTournamentstring(ml.ToString(), out id, out name))
-                        tournaments.Add(new Tournament(){Id = id, Name = name});
-                }
+				GetTournamentsForYear (wc, tournaments, DateTime.Now.Year);
+				GetTournamentsForYear (wc, tournaments, DateTime.Now.Year-1);
 
 
                 return tournaments;
             }
         }
+
+		void GetTournamentsForYear (WebClient wc, IList<Tournament> tournaments, int year)
+		{
+
+			string aRequestHTML = wc.DownloadString("http://www.liveothello.com/mobile?year="+year);
+
+			Regex r = new Regex(@"TourID[^>]*>(.*?)</a>");
+			MatchCollection mcl = r.Matches(aRequestHTML);
+			List<string> a = new List<string>();
+			foreach (Match ml in mcl)
+			{
+				int id;
+				string name;
+				if (ParseIdAndNameFromTournamentstring(ml.ToString(), out id, out name))
+					tournaments.Add(new Tournament(){Id = id, Name = name});
+			}
+		}
 
 		public IEnumerable<Tournament> GetMockTournaments()
 		{

@@ -33,6 +33,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cbNotificationLights" />-->
+    <CheckBox
+        android:text="Use local viewer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbUseLocalViewer" />
     <TextView
         android:text="Tournament notification"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -97,9 +102,4 @@
             android:layout_marginLeft="5dp"
             android:id="@+id/rbGamesEvery" />
     </RadioGroup>
-    <CheckBox
-        android:text="Use local viewer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cbUseLocalViewer" />
 </LinearLayout>
