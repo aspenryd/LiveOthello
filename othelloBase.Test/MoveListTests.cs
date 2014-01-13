@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -47,11 +48,12 @@ namespace othelloBase.Test
             MoveList.ConvertToMoveList("H1H8H1");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
+        [TestMethod]       
         public void MoveList_ConvertToMoveList_TooShortMoveList_ThrowsException()
         {
-            MoveList.ConvertToMoveList("");
+            var movelist = MoveList.ConvertToMoveList("");
+            Assert.IsNotNull(movelist);
+            Assert.AreEqual(0, movelist.Count);
         }
 
         [TestMethod]
