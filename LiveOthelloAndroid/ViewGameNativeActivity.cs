@@ -158,13 +158,21 @@ namespace LiveOthelloAndroid
 			board.BuildBoardFromMoveList(movelist, movenumber);
 			(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
 			game_grid.InvalidateViews();
-			game_positioninfo.Text = string.Format ("Move: {0}   Black: {1}   White: {2}", movenumber, board.NumberOfBlackDiscs, board.NumberOfWhiteDiscs);
+
+			game_positioninfo.Text = string.Format ("({0}) Black {1} White", movenumber, GetScore(board));
+		}
+
+		string GetScore (OthelloBoard board)
+		{
+			if (board.GameFinished)
+				return board.FinalScore;
+			return string.Format ("{0} - {1}", board.NumberOfBlackDiscs, board.NumberOfWhiteDiscs);
 		}
 
 		private void CreateTimerForUpdates ()
 		{
 			_timer = new System.Timers.Timer();
-			_timer.Interval = 5000; //Trigger event every five seconds
+			_timer.Interval = 1000; //Trigger event every seconds
 			_timer.Elapsed += OnTimedEvent;
 			_timer.Enabled = true;
 		}
@@ -181,25 +189,52 @@ namespace LiveOthelloAndroid
 				return;
 			}
 
-			var isAtLastMove = IsAtLastMove();
-			var haveNewMove = UpdateGameInfo (intGameId, movelist);
+			if (ShouldLookForUpdate())
+			{
+				var isAtLastMove = IsAtLastMove();
+				var haveNewMove = UpdateGameInfo (intGameId, movelist);
 
-			if (isAtLastMove && haveNewMove) {
-				movenumber = movelist.List.Count ();				
-				RunOnUiThread (() => UpdateGame ());
+				if (isAtLastMove && haveNewMove) {
+					movenumber = movelist.List.Count ();				
+					RunOnUiThread (() => UpdateGame ());
+				}
+				if (haveNewMove)
+					haveSeenLastMove = isAtLastMove;
+				RunOnUiThread (() => UpdateStatusText());
 			}
-			if (haveNewMove)
-				haveSeenLastMove = isAtLastMove;
-			RunOnUiThread (() => UpdateStatusText());
+		}
+
+		bool ShouldLookForUpdate ()
+		{
+			//1,2,4,7,10,15,20...
+			var spann = DateTime.Now - lastUpdate;
+			var sec = Math.Floor(spann.TotalSeconds);
+			if (sec <= 2)
+				return true; //Update every second
+			if (sec < 10)
+				return sec == 4 ||	sec == 7 ; //Update every 3 seconds
+			return sec % 5 == 0; //Update every 5 seconds
 		}
 
 		void UpdateStatusText(){
 			if (board.GameFinished) {
 				status_text.Text = "Game is finished";
 				_timer.Enabled = false;
-			} else {
-				status_text.Text = string.Format ("{0}Last update was made {1} seconds ago", !haveSeenLastMove? "NEW MOVE! " : "",(DateTime.Now - lastUpdate).Seconds);
+			} else if (board.NumberOfMoves == 0) {
+				status_text.Text = "Waiting for game to start";
+			} else
+			{
+				status_text.Text = string.Format ("{0}{1} to move ({2})", !haveSeenLastMove? "NEW MOVE! " : "", board.NextColor == SquareType.Black ? "Black" : "White", TimeSpanToString((DateTime.Now - lastUpdate)));
 			}
+		}
+
+		public string TimeSpanToString (TimeSpan timeSpan)
+		{
+			var text = "";
+			if (timeSpan.Minutes > 0)
+				text = timeSpan.Minutes + "m ";
+			text += timeSpan.Seconds + "s";
+			return text;
 		}
 	}
 }

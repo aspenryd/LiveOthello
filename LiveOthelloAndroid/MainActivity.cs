@@ -26,9 +26,11 @@ namespace LiveOthelloAndroid
 		private const int menuItemSettings = 1;
 		private const int menuItemUpdate = 2;
 
-		//		System.Timers.Timer _timer;
+		System.Timers.Timer _timer;
 		IList<Tournament> tournaments = null;
 		IList<Game> games;
+
+		DateTime LastUpdateCheck;
 
 		#endregion
 
@@ -54,7 +56,7 @@ namespace LiveOthelloAndroid
 //			};
 
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
-			//CreateTimerForUpdates ();
+			CreateTimerForUpdates ();
 		}
 
 //		int tournamentNumber = 0;
@@ -223,9 +225,13 @@ namespace LiveOthelloAndroid
 					tournament.Games = newgames;
 					return true;
 				}
+				if (!tournament.Games.Any (g=>g.Name == game.Name)) 
+				{
+					tournament.Games = newgames;
+					return true;
+				}
 			}
 			return false;
-
 		}
 
 		protected void SaveGamesAndUpdateGameSpinner (Tournament tournament, bool updateSpinner)
@@ -247,14 +253,15 @@ namespace LiveOthelloAndroid
 			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament, true));
 		}
 
-//		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
-//		{
-//			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
-//			{
-//				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames ());
-//				LastUpdateCheck = DateTime.Now;
-//			}
-//		}
+		void OnTimedEvent (object sender, System.Timers.ElapsedEventArgs e)
+		{
+			int minTimeBetweenUpdates = 30;
+			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
+			{
+				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames (false));
+				LastUpdateCheck = DateTime.Now;
+			}
+		}
 
 
 		#endregion 
@@ -323,21 +330,21 @@ namespace LiveOthelloAndroid
 		#endregion
 
 		#region private methods
-//		private void CreateTimerForUpdates ()
-//		{
-//			_timer = new System.Timers.Timer();
-//			_timer.Interval = 5000; //Trigger event every five seconds
-//			_timer.Elapsed += OnTimedEvent;
-//			_timer.Enabled = true;
-//		}
+		private void CreateTimerForUpdates ()
+		{
+			_timer = new System.Timers.Timer();
+			_timer.Interval = 10000; //Trigger event every ten seconds
+			_timer.Elapsed += OnTimedEvent;
+			_timer.Enabled = true;
+		}
 
-		private void UpdateTournamentListAndTournamentsThatHaveGames ()
+		private void UpdateTournamentListAndTournamentsThatHaveGames (bool updateGameInfo = true)
 		{
 			UpdateTournamentsFromSite ();
 			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
 			{
 				UpdateGamesFromSite (tournament, CurrentTournament.Id == tournament.Id);
-				if (localStorage.UseLocalViewer) {
+				if (localStorage.UseLocalViewer && updateGameInfo) {
 					foreach (var game in tournament.Games) {
 
 						UpdateGameInfoFromSite (game);
