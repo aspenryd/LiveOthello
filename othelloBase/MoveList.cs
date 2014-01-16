@@ -51,7 +51,7 @@ namespace othelloBase
             set { list = value;}
         }
 
-		public string ToString()
+		public override string ToString()
 		{
 			var movestring = "";
 			foreach (var move in list) {
