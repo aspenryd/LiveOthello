@@ -21,12 +21,12 @@ namespace LiveOthelloAndroid
 		const string parameterNotificationLight = "NotificationLight";
 		const string parameterTournamentNotificationType = "NotificationTournamentType";
 		const string parameterGamesNotificationType = "NotificationGamesType";
-		const string parameterUseLocalViewer = "UseLocalViewer";
+		const string parameterUseHamletApplet = "UseHamletApplet";
 
 		private bool notificationSound;
 		private bool notificationVibration;
 		private bool notificationLight;
-		private bool useLocalViewer;
+		private bool useHamletApplet;
 
 		NotificationType tournamentNotificationType;
 		NotificationType gamesNotificationType;
@@ -39,7 +39,7 @@ namespace LiveOthelloAndroid
 			notificationSound = GetPrefs (parameterNotificationSound, true);
 			notificationVibration = GetPrefs (parameterNotificationVibration, true);
 			notificationLight = GetPrefs (parameterNotificationLight, true);
-			useLocalViewer = GetPrefs (parameterUseLocalViewer, false);
+			useHamletApplet = GetPrefs (parameterUseHamletApplet, false);
 			tournamentNotificationType = (NotificationType)GetPrefs (parameterTournamentNotificationType, (int)NotificationType.Every);
 			gamesNotificationType = (NotificationType)GetPrefs (parameterGamesNotificationType, (int)NotificationType.Every);
 		}
@@ -71,12 +71,12 @@ namespace LiveOthelloAndroid
 			}
 		}
 
-		public bool UseLocalViewer { 
-			get {return true;}
+		public bool UseHamletApplet { 
+			get {return useHamletApplet;}
 			set 
 			{
-				useLocalViewer = value;
-				SetPrefs (parameterUseLocalViewer, useLocalViewer);
+				useHamletApplet = value;
+				SetPrefs (parameterUseHamletApplet, useHamletApplet);
 			}
 		}
 

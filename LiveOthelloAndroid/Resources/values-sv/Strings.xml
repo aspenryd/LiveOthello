@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">LiveOthello</string>
+	<string name="tournaments">Turneringar</string>
+	<string name="games">Partier</string>
+	<string name="view_game">Visa parti</string>
+	<string name="view_chat">Visa chat</string>
+
+	<string name="game_menu">Huvudmeny</string>
+
+	<string name="game_status">Game status</string>
+	<string name="game_finished">Partiet är avslutat</string>
+	<string name="game_waiting_start">Väntar på att partiet skall börja</string>
+	<string name="black">Svart</string>
+	<string name="white">Vit</string>
+	<string name="live_status">{0}{1} skall lägga ({2})</string>
+	<string name="new_move">Nytt drag!</string>
+	<string name="button_first">&lt;&lt;</string>
+	<string name="button_prior">&lt;</string>
+	<string name="button_next">&gt;</string>
+	<string name="button_last">&gt;&gt;</string>
+
+
+	<string name="check_update">Uppdatera turneringar</string>
+	<string name="settings">Inställningar</string>
+	<string name="new_tournament_notification">Ny LiveOthello turnering</string>
+	<string name="new_game_notification">Nytt LiveOthello parti</string>
+
+	<string name="notification_alerts">Notificatieringar</string>
+	<string name="play_sound">Spela ljud</string>
+	<string name="vibrate">Vibrera</string>
+	<string name="show_lights">Använd lampor</string>
+	<string name="use_hamlet_applet">Använd Hamlet applet</string>
+	<string name="tournament_notification">Turneringsnotifiering</string>
+	<string name="notification_none">Ingen</string>
+	<string name="notification_one">En</string>
+	<string name="notification_every">Alla</string>
+	<string name="games_notification">Partinotifiering</string>
+
+</resources>

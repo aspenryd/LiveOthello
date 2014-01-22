@@ -11,35 +11,35 @@
         android:layout_gravity="bottom"
         android:layout_weight="0" />
     <TextView
-        android:text="Notification alerts"
+        android:text="@string/notification_alerts"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1" />
     <CheckBox
-        android:text="Play sound"
+        android:text="@string/play_sound"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:checked="true"
         android:id="@+id/cbNotificationSound" />
     <CheckBox
-        android:text="Vibrate"
+        android:text="@string/vibrate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:checked="true"
         android:id="@+id/cbNotificationVibration" />
 <!--    <CheckBox
-        android:text="Show Lights"
+        android:text="@string/show_lights"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cbNotificationLights" />-->
     <CheckBox
-        android:text="Use local viewer"
+        android:text="@string/use_hamlet_applet"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cbUseLocalViewer" />
+        android:id="@+id/cbUseHamletApplet" />
     <TextView
-        android:text="Tournament notification"
+        android:text="@string/tournament_notification"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -54,24 +54,24 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="None"
+            android:text="@string/notification_none"
             android:id="@+id/rbTournamentNone" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="One"
+            android:text="@string/notification_one"
             android:layout_marginLeft="5dp"
             android:id="@+id/rbTournamentOne" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Every"
+            android:text="@string/notification_every"
             android:layout_marginLeft="5dp"
             android:id="@+id/rbTournamentEvery" />
     </RadioGroup>
     <TextView
-        android:text="Games notifications"
+        android:text="@string/games_notification"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -86,19 +86,19 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="None"
+            android:text="@string/notification_none"
             android:id="@+id/rbGamesNone" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="One"
+            android:text="@string/notification_one"
             android:layout_marginLeft="5dp"
             android:id="@+id/rbGamesOne" />
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Every"
+            android:text="@string/notification_every"
             android:layout_marginLeft="5dp"
             android:id="@+id/rbGamesEvery" />
     </RadioGroup>

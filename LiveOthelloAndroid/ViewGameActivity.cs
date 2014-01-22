@@ -52,12 +52,14 @@ namespace LiveOthelloAndroid
 
 			flippy = FindViewById<ViewFlipper> (Resource.Id.viewFlipper1);
 			var btnChange = FindViewById<TextView> (Resource.Id.btnViewChange);
+			string view_chat = Resources.GetString (Resource.String.view_chat);
+			string view_game = Resources.GetString (Resource.String.view_game);
 			btnChange.Click += (o, e) => {
 				flippy.ShowNext();
-				if (btnChange.Text == "View Chat")
-					btnChange.Text = "View Game";
+				if (btnChange.Text == view_chat)
+					btnChange.Text = view_game;
 				else
-					btnChange.Text = "View Chat";
+					btnChange.Text = view_chat;
 			};
 
 		
@@ -75,4 +77,5 @@ namespace LiveOthelloAndroid
 		}
 	}
 }
+
 

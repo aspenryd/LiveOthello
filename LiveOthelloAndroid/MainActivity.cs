@@ -90,9 +90,9 @@ namespace LiveOthelloAndroid
 		{
 			//var menuitemInfo = menu.Add(0,menuItemInfo,0,"Info");
 			//menuitemInfo.SetIcon(Resource.Drawable.menu_info);
-			var menuitemSettings = menu.Add(0,menuItemSettings,1,"Settings");
+			var menuitemSettings = menu.Add(0,menuItemSettings,1,Resources.GetString (Resource.String.settings));
 			menuitemSettings.SetIcon(Resource.Drawable.menu_settings);
-			menu.Add(0,menuItemUpdate,2,"Check for new games").SetIcon(Resource.Drawable.menu_update);
+			menu.Add(0,menuItemUpdate,2,Resources.GetString (Resource.String.check_update)).SetIcon(Resource.Drawable.menu_update);
 			return base.OnCreateOptionsMenu (menu);
 		}
 
@@ -278,7 +278,7 @@ namespace LiveOthelloAndroid
 				//NotifyNewGame (game);
 
 				var second = new Intent (this, typeof(ViewGameActivity));
-				if (localStorage.UseLocalViewer)
+				if (!localStorage.UseHamletApplet)
 					second = new Intent (this, typeof(ViewGameNativeActivity));
 				second.PutExtra ("GameName", game.Name);
 				second.PutExtra ("GameId", game.Id.ToString ());
@@ -344,9 +344,8 @@ namespace LiveOthelloAndroid
 			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
 			{
 				UpdateGamesFromSite (tournament, CurrentTournament.Id == tournament.Id);
-				if (localStorage.UseLocalViewer && updateGameInfo) {
+				if (!localStorage.UseHamletApplet && updateGameInfo) {
 					foreach (var game in tournament.Games) {
-
 						UpdateGameInfoFromSite (game);
 					}
 				}
@@ -385,7 +384,7 @@ namespace LiveOthelloAndroid
 					id = NewGameNotificationId + game.Id;
 					break;
 			}
-			CreateNotification ("New LiveOthello game", game.Name, Resource.Drawable.game_small, id, game);
+			CreateNotification (Resources.GetString (Resource.String.new_game_notification), game.Name, Resource.Drawable.game_small, id, game);
 		}
 
 		protected void NotifyNewTournament(Tournament tournament)
@@ -402,7 +401,7 @@ namespace LiveOthelloAndroid
 				id = NewTournamentNotificationId + tournament.Id;
 				break;
 			}
-			CreateNotification ("New LiveOthello tournament", tournament.Name, Resource.Drawable.tournament_small, id);
+			CreateNotification (Resources.GetString (Resource.String.new_tournament_notification), tournament.Name, Resource.Drawable.tournament_small, id);
 		}
 
 		protected void CreateNotification(string title, string text, int icon, int notificationId, Game game = null)
@@ -410,7 +409,7 @@ namespace LiveOthelloAndroid
 			Intent resultIntent = new Intent(this, typeof(MainActivity));
 
 			if (game != null) {
-				if (localStorage.UseLocalViewer) {
+				if (!localStorage.UseHamletApplet) {
 					resultIntent = new Intent (this, typeof(ViewGameNativeActivity));
 				} else {
 					resultIntent = new Intent (this, typeof(ViewGameActivity));

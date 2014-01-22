@@ -19,7 +19,7 @@
                 android:id="@+id/btnMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Game Menu"
+                android:text="@string/game_menu"
                 android:background="@drawable/buttonstyle"
                 style="@style/button_text"
                 android:ems="6" />
@@ -27,7 +27,7 @@
                 android:id="@+id/btnViewChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View Chat"
+                android:text="@string/view_chat"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/buttonstyle"
                 style="@style/button_text"
@@ -80,12 +80,9 @@
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
                         android:smoothScrollbar="false"
-                        android:fastScrollEnabled="false"
                         android:scrollingCache="false"
-                        android:fastScrollAlwaysVisible="false"
                         android:drawSelectorOnTop="false"
                         android:background="#ff0f1f10"
-                        android:requiresFadingEdge="horizontal"
                         android:fadingEdge="vertical"
                         android:fadingEdgeLength="0dp"
                         android:fitsSystemWindows="true"
@@ -96,7 +93,7 @@
                         android:isScrollContainer="false" />
                 </LinearLayout>
                 <TextView
-                    android:text="Move: 10   Black: 2   White: 2"
+                    android:text="Black 2 - 2 White"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,7 +102,7 @@
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp" />
                 <TextView
-                    android:text="Game status"
+                    android:text="@string/game_status"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,7 +119,7 @@
                         android:id="@+id/btnMoveFirst"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="First"
+                        android:text="@string/button_first"
                         android:background="@drawable/buttonstyle"
                         style="@style/button_text"
                         android:ems="3" />
@@ -130,7 +127,7 @@
                         android:id="@+id/btnMovePrior"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Prior"
+                        android:text="@string/button_prior"
                         android:background="@drawable/buttonstyle"
                         style="@style/button_text"
                         android:ems="3" />
@@ -138,7 +135,7 @@
                         android:id="@+id/btnMoveNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Next"
+                        android:text="@string/button_next"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/buttonstyle"
                         style="@style/button_text"
@@ -147,7 +144,7 @@
                         android:id="@+id/btnMoveLast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Last"
+                        android:text="@string/button_last"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/buttonstyle"
                         style="@style/button_text"

@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
-        android:text="Tournaments"
+        android:text="@string/tournaments"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tournamentspinner" />
     <TextView
-        android:text="Games"
+        android:text="@string/games"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
     <Button
         android:background="@drawable/buttonstyle"
         style="@style/button_text"
-        android:text="View game"
+        android:text="@string/view_game"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

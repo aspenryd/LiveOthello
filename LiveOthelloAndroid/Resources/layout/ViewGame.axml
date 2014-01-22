@@ -19,7 +19,7 @@
                 android:id="@+id/btnMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Game Menu"
+                android:text="@string/game_menu"
                 android:background="@drawable/buttonstyle"
                 style="@style/button_text"
                 android:ems="6" />
@@ -27,7 +27,7 @@
                 android:id="@+id/btnViewChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View Chat"
+                android:text="@string/view_chat"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/buttonstyle"
                 style="@style/button_text"

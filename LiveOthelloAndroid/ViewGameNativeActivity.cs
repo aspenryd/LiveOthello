@@ -16,7 +16,7 @@ using othelloBase;
 
 namespace LiveOthelloAndroid
 {
-	[Activity (Label = "LiveOthello Settings", ScreenOrientation = ScreenOrientation.Portrait)]		
+	[Activity (Label = "LiveOthello NativeGame", ScreenOrientation = ScreenOrientation.Portrait)]		
 	public class ViewGameNativeActivity : Activity
 	{
 		GridView game_grid;
@@ -42,11 +42,16 @@ namespace LiveOthelloAndroid
 
 		MoveList movelist;
 
+		string black_string;
+		string white_string;
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			RequestWindowFeature(WindowFeatures.NoTitle);
 			SetContentView (Resource.Layout.ViewGameNative);
+			black_string = Resources.GetString (Resource.String.black);
+			white_string = Resources.GetString (Resource.String.white);
 
 			var gameId = Intent.GetStringExtra("GameId") ?? "2552";
 			var gameName = Intent.GetStringExtra("GameName") ?? "";
@@ -83,12 +88,15 @@ namespace LiveOthelloAndroid
 
 			flippy = FindViewById<ViewFlipper> (Resource.Id.viewFlipper1);
 			var btnChange = FindViewById<TextView> (Resource.Id.btnViewChange);
+			string view_chat = Resources.GetString (Resource.String.view_chat);
+			string view_game = Resources.GetString (Resource.String.view_game);
+
 			btnChange.Click += (o, e) => {
 				flippy.ShowNext();
-				if (btnChange.Text == "View Chat")
-					btnChange.Text = "View Game";
+				if (btnChange.Text == view_chat)
+					btnChange.Text = view_game;
 				else
-					btnChange.Text = "View Chat";
+					btnChange.Text = view_chat;
 			};
 			localStorage = new LocalStorage (this.ApplicationContext);
 			board = new OthelloBoard ();
@@ -159,7 +167,7 @@ namespace LiveOthelloAndroid
 			(game_grid.Adapter as ImageAdapter).SetBoard(board.Squares);
 			game_grid.InvalidateViews();
 
-			game_positioninfo.Text = string.Format ("({0}) Black {1} White", movenumber, GetScore(board));
+			game_positioninfo.Text = string.Format ("({0}) {1} {2} {3}", movenumber, black_string, GetScore(board), white_string);
 		}
 
 		string GetScore (OthelloBoard board)
@@ -217,14 +225,18 @@ namespace LiveOthelloAndroid
 		}
 
 		void UpdateStatusText(){
+
 			if (board.GameFinished) {
-				status_text.Text = "Game is finished";
+				status_text.Text = Resources.GetString (Resource.String.game_finished);
 				_timer.Enabled = false;
 			} else if (board.NumberOfMoves == 0) {
-				status_text.Text = "Waiting for game to start";
+				status_text.Text = Resources.GetString (Resource.String.game_waiting_start);
 			} else
 			{
-				status_text.Text = string.Format ("{0}{1} to move ({2})", !haveSeenLastMove? "NEW MOVE! " : "", board.NextColor == SquareType.Black ? "Black" : "White", TimeSpanToString((DateTime.Now - lastUpdate)));
+				var next_color = board.NextColor == SquareType.Black ? black_string : white_string;
+				var live_status_string = Resources.GetString (Resource.String.live_status);
+				var new_move = !haveSeenLastMove? Resources.GetString (Resource.String.new_move) + " " : "";
+				status_text.Text = string.Format (live_status_string, new_move, next_color, TimeSpanToString((DateTime.Now - lastUpdate)));
 			}
 		}
 

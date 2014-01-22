@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">test</string>
+	<string name="app_name">LiveOthello</string>
+	<string name="tournaments">Tournaments</string>
+	<string name="games">Games</string>
+	<string name="view_game">View Game</string>
+	<string name="view_chat">View Chat</string>
+
+	<string name="game_menu">Game Menu</string>
+
+	<string name="game_status">Game status</string>
+	<string name="game_finished">Game is finished</string>
+	<string name="game_waiting_start">Waiting for game to start</string>
+	<string name="black">Black</string>
+	<string name="white">White</string>
+	<string name="live_status">{0}{1} to move ({2})</string>
+	<string name="new_move">NEW MOVE!</string>
+	<string name="button_first">&lt;&lt;</string>
+	<string name="button_prior">&lt;</string>
+	<string name="button_next">&gt;</string>
+	<string name="button_last">&gt;&gt;</string>
+
+
+	<string name="check_update">Check for new games</string>
+	<string name="settings">Settings</string>
+	<string name="new_tournament_notification">New LiveOthello tournament</string>
+	<string name="new_game_notification">New LiveOthello game</string>
+
+	<string name="notification_alerts">Notification alerts</string>
+	<string name="play_sound">Play sound</string>
+	<string name="vibrate">Vibrate</string>
+	<string name="show_lights">Show Lights</string>
+	<string name="use_hamlet_applet">Use Hamlet applet</string>
+	<string name="tournament_notification">Tournament notification</string>
+	<string name="notification_none">None</string>
+	<string name="notification_one">One</string>
+	<string name="notification_every">Every</string>
+	<string name="games_notification">Games notification</string>
+
 </resources>
+

@@ -57,10 +57,10 @@ namespace LiveOthelloAndroid
 				localstorage.GamesNotificationType = GrgId2Nt(rgGames.CheckedRadioButtonId);
 			};
 
-			var cbUseLocalViewer = FindViewById<CheckBox> (Resource.Id.cbUseLocalViewer);
-			cbUseLocalViewer.Checked = localstorage.UseLocalViewer;
-			cbUseLocalViewer.CheckedChange += (o, e) => {
-				localstorage.UseLocalViewer = cbUseLocalViewer.Checked;
+			var cbUseHamletApplet = FindViewById<CheckBox> (Resource.Id.cbUseHamletApplet);
+			cbUseHamletApplet.Checked = localstorage.UseHamletApplet;
+			cbUseHamletApplet.CheckedChange += (o, e) => {
+				localstorage.UseHamletApplet = cbUseHamletApplet.Checked;
 			};
 		}
 
