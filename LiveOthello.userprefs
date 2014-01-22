@@ -1,25 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\SettingsActivity.cs">
     <Files>
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="44" Column="30" />
-      <File FileName="LiveOthelloAndroid\ViewGameNativeActivity.cs" Line="92" Column="70" />
-      <File FileName="LiveOthelloAndroid\ViewGameActivity.cs" Line="57" Column="1" />
-      <File FileName="LiveOthelloAndroid\Resources\ImageAdapter.cs" Line="1" Column="1" />
-      <File FileName="othelloBase\MoveList.cs" Line="1" Column="1" />
-      <File FileName="LiveOthelloAndroid\Resources\AboutResources.txt" Line="17" Column="12" />
-      <File FileName="LiveOthelloAndroid\Resources\values\Strings.xml" Line="26" Column="1" />
-      <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="27" Column="4" />
-      <File FileName="LiveOthelloAndroid\Resources\values-sv\Strings.xml" Line="26" Column="1" />
+      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="75" Column="33" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="412" Column="10" />
+      <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="26" Column="46" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="LiveOthelloAndroid" expanded="True" selected="True">
+          <Node name="LiveOthelloAndroid" expanded="True">
             <Node name="Resources" expanded="True">
-              <Node name="layout" expanded="True" />
               <Node name="values" expanded="True" />
-              <Node name="values-sv" expanded="True" />
+              <Node name="values-sv" expanded="True" selected="True" />
             </Node>
           </Node>
         </State>
@@ -30,5 +23,5 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid />
 </Properties>

@@ -82,6 +82,7 @@
     <AndroidResource Include="Resources\drawable\black_disc.png" />
     <AndroidResource Include="Resources\drawable\white_disc.png" />
     <AndroidResource Include="Resources\drawable\empty_disc.png" />
+    <AndroidResource Include="Resources\values-sv\Strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -89,5 +90,8 @@
       <Project>{0D1BC37B-A474-4B98-BFFE-BE70C06E504F}</Project>
       <Name>othelloBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\values-sv\" />
   </ItemGroup>
 </Project>
