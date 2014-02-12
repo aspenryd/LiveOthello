@@ -60,6 +60,11 @@ namespace LiveOthelloAndroid
 			int colwidth = (int)Math.Floor((disp.Width < disp.Height ? disp.Width : disp.Height) * 0.9 / 8);
 			int gridwidth = colwidth * 8 + 8;// +8 is for the padding
 
+			//Make sure it works on smaller resolutions where static height items will take larger percent of screen
+			int staticHeight = 220;
+			if (disp.Height < staticHeight + gridwidth)
+				gridwidth = disp.Height - staticHeight;
+
 			game_grid = FindViewById<GridView> (Resource.Id.gridview);
 			game_grid.LayoutParameters.Width = gridwidth;
 			game_grid.LayoutParameters.Height = gridwidth;
@@ -146,6 +151,8 @@ namespace LiveOthelloAndroid
 			CreateTimerForUpdates ();
 			UpdateStatusText ();
 		}
+
+
 
 		bool UpdateGameInfo (int gameId, MoveList movelist)
 		{

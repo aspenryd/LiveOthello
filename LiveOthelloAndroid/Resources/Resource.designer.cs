@@ -102,17 +102,17 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060013
 			public const int btnMenu = 2131099667;
 			
-			// aapt resource value: 0x7f06001d
-			public const int btnMoveFirst = 2131099677;
+			// aapt resource value: 0x7f06001e
+			public const int btnMoveFirst = 2131099678;
+			
+			// aapt resource value: 0x7f060021
+			public const int btnMoveLast = 2131099681;
 			
 			// aapt resource value: 0x7f060020
-			public const int btnMoveLast = 2131099680;
+			public const int btnMoveNext = 2131099680;
 			
 			// aapt resource value: 0x7f06001f
-			public const int btnMoveNext = 2131099679;
-			
-			// aapt resource value: 0x7f06001e
-			public const int btnMovePrior = 2131099678;
+			public const int btnMovePrior = 2131099679;
 			
 			// aapt resource value: 0x7f060014
 			public const int btnViewChange = 2131099668;
@@ -126,14 +126,14 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060008
 			public const int cbUseHamletApplet = 2131099656;
 			
-			// aapt resource value: 0x7f060019
-			public const int gameName = 2131099673;
+			// aapt resource value: 0x7f06001a
+			public const int gameName = 2131099674;
 			
 			// aapt resource value: 0x7f060003
 			public const int gamesspinner = 2131099651;
 			
-			// aapt resource value: 0x7f06001a
-			public const int gridview = 2131099674;
+			// aapt resource value: 0x7f06001b
+			public const int gridview = 2131099675;
 			
 			// aapt resource value: 0x7f060012
 			public const int layoutButtons = 2131099666;
@@ -141,11 +141,14 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f060015
 			public const int layoutFlipper = 2131099669;
 			
+			// aapt resource value: 0x7f060019
+			public const int layoutMain = 2131099673;
+			
 			// aapt resource value: 0x7f060005
 			public const int layoutNews = 2131099653;
 			
-			// aapt resource value: 0x7f06001b
-			public const int positionInfo = 2131099675;
+			// aapt resource value: 0x7f06001c
+			public const int positionInfo = 2131099676;
 			
 			// aapt resource value: 0x7f060011
 			public const int rbGamesEvery = 2131099665;
@@ -171,8 +174,8 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f06000a
 			public const int rgTournamentNotifications = 2131099658;
 			
-			// aapt resource value: 0x7f06001c
-			public const int statusText = 2131099676;
+			// aapt resource value: 0x7f06001d
+			public const int statusText = 2131099677;
 			
 			// aapt resource value: 0x7f060000
 			public const int textView1 = 2131099648;

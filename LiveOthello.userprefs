@@ -1,27 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\SettingsActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="LiveOthelloAndroid\MainActivity.cs">
     <Files>
-      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="75" Column="33" />
-      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="412" Column="10" />
-      <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="26" Column="46" />
+      <File FileName="LiveOthelloAndroid\LocalStorage.cs" Line="1" Column="1" />
+      <File FileName="LiveOthelloAndroid\MainActivity.cs" Line="35" Column="3" />
+      <File FileName="LiveOthelloAndroid\SettingsActivity.cs" Line="1" Column="1" />
+      <File FileName="LiveOthelloAndroid\ViewGameNativeActivity.cs" Line="66" Column="44" />
+      <File FileName="c:\utv\github\LiveOthello\othelloBase\LiveOthelloService.cs" Line="45" Column="54" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="LiveOthelloAndroid" expanded="True">
-            <Node name="Resources" expanded="True">
-              <Node name="values" expanded="True" />
-              <Node name="values-sv" expanded="True" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid />
+  <MonoDevelop.Ide.ItemProperties.LiveOthelloAndroid AndroidDeviceId-Debug="emulator-5554" MonoForAntroid.PreferredDevice="3.7in WVGA (Nexus One)" />
 </Properties>

@@ -14,6 +14,7 @@ using Android.Net;
 using Android.Support.V4.App;
 using Java.Lang;
 using Android.Media;
+using System.Threading.Tasks;
 
 
 namespace LiveOthelloAndroid
@@ -32,13 +33,19 @@ namespace LiveOthelloAndroid
 
 		DateTime LastUpdateCheck;
 
-		#endregion
+		bool updating = false;
 
+		ProgressDialog _progressDialog;
+
+		#endregion
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
+			_progressDialog = new ProgressDialog(this) { Indeterminate = true };
+			_progressDialog.SetTitle ("Please wait...");
+
 
 			var tournaments = GetTournaments ();
 			UpdateTournamentSpinner();
@@ -49,31 +56,9 @@ namespace LiveOthelloAndroid
 				ViewGame();
 			};
 
-//			var btnSettings = FindViewById<Button> (Resource.Id.btnSettings);
-//			btnSettings.Click += (sender, e) => {
-//				AddTournament();
-//				AddGame();
-//			};
-
 			ThreadPool.QueueUserWorkItem (o => UpdateTournamentsFromSite ());
 			CreateTimerForUpdates ();
 		}
-
-//		int tournamentNumber = 0;
-//
-//		void AddTournament ()
-//		{
-//			tournamentNumber++;
-//			NotifyNewTournament(new Tournament() {Id = tournamentNumber, Name = string.Format("Fake Tournament {0}", tournamentNumber)});
-//		}
-//
-//		int gameNumber = 0;
-//
-//		void AddGame ()
-//		{
-//			gameNumber++;
-//			NotifyNewGame (new Game () { Id = gameNumber, Name = string.Format ("Fake Game {0}", gameNumber) });
-//		}
 
 
 		#region public methods
@@ -112,7 +97,7 @@ namespace LiveOthelloAndroid
 				}
 			case menuItemUpdate: 
 				{
-					UpdateTournamentListAndTournamentsThatHaveGames ();
+					UpdateTournamentinfoWithProgress (true);
 					return true;
 				}
 				default:
@@ -248,8 +233,7 @@ namespace LiveOthelloAndroid
 		private void tournamentspinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
 		{
 			var tournament = tournaments.ToList()[e.Position];
-			games = GetGamesFromTournament (tournament).ToList();
-			UpdateGameSpinner (games);
+			GetGamesAndUpdateSpinnerWithProgress (tournament);
 			ThreadPool.QueueUserWorkItem (o => UpdateGamesFromSite (tournament, true));
 		}
 
@@ -258,7 +242,7 @@ namespace LiveOthelloAndroid
 			int minTimeBetweenUpdates = 30;
 			if ((DateTime.Now - LastUpdateCheck).Seconds > minTimeBetweenUpdates) 
 			{
-				ThreadPool.QueueUserWorkItem (o => UpdateTournamentListAndTournamentsThatHaveGames (false));
+				ThreadPool.QueueUserWorkItem (o => UpdateTournamentinfo (false));
 				LastUpdateCheck = DateTime.Now;
 			}
 		}
@@ -268,6 +252,16 @@ namespace LiveOthelloAndroid
 
 		#region UI Methods
 	
+		void ShowProgressDialog (string message)
+		{
+			_progressDialog.SetMessage(message);
+			RunOnUiThread (() => _progressDialog.Show ());
+		}
+
+		void HideProgressDialog ()
+		{
+			RunOnUiThread (() => _progressDialog.Hide ());
+		}
 
 		protected void ViewGame()
 		{
@@ -338,8 +332,21 @@ namespace LiveOthelloAndroid
 			_timer.Enabled = true;
 		}
 
-		private void UpdateTournamentListAndTournamentsThatHaveGames (bool updateGameInfo = true)
+
+
+		void UpdateTournamentinfoWithProgress (bool updateGameInfo)
 		{
+			ShowProgressDialog ("Downloading tournaments");
+			Task.Factory.StartNew(() =>
+				UpdateTournamentinfo(updateGameInfo)
+			).ContinueWith(task => HideProgressDialog());
+		}
+
+		void UpdateTournamentinfo (bool updateGameInfo)
+		{
+			if (updating)
+				return;
+			updating = true;
 			UpdateTournamentsFromSite ();
 			foreach (var tournament in tournaments.Where(t=>t.Games != null && t.Games.Any())) 
 			{
@@ -350,7 +357,24 @@ namespace LiveOthelloAndroid
 					}
 				}
 			}
+			updating = false;
 		}
+
+		void GetGamesAndUpdateSpinner (Tournament tournament)
+		{
+			games = GetGamesFromTournament (tournament).ToList();
+			RunOnUiThread(() => UpdateGameSpinner (games));
+		}
+
+		void GetGamesAndUpdateSpinnerWithProgress (Tournament tournament)
+		{
+			ShowProgressDialog ("Loading games");
+			Task.Factory.StartNew(() =>
+				GetGamesAndUpdateSpinner(tournament)
+			).ContinueWith(task => HideProgressDialog());
+		}
+
+
 
 		void UpdateGameInfoFromSite (Game game)
 		{
