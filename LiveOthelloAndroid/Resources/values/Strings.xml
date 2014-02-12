@@ -37,5 +37,9 @@
 	<string name="notification_every">Every</string>
 	<string name="games_notification">Games notification</string>
 
+	<string name="progress_title">Please wait...</string>
+	<string name="progress_tournaments">Downloading tournaments</string>
+	<string name="progress_games">Loading games</string>
+
 </resources>
 

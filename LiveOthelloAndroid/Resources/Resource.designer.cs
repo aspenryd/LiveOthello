@@ -302,6 +302,15 @@ namespace LiveOthelloAndroid
 			// aapt resource value: 0x7f040016
 			public const int play_sound = 2130968598;
 			
+			// aapt resource value: 0x7f040021
+			public const int progress_games = 2130968609;
+			
+			// aapt resource value: 0x7f04001f
+			public const int progress_title = 2130968607;
+			
+			// aapt resource value: 0x7f040020
+			public const int progress_tournaments = 2130968608;
+			
 			// aapt resource value: 0x7f040012
 			public const int settings = 2130968594;
 			

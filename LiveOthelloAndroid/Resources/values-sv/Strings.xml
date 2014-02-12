@@ -37,4 +37,7 @@
 	<string name="notification_every">Alla</string>
 	<string name="games_notification">Partinotifiering</string>
 
+	<string name="progress_title">Vänta...</string>
+	<string name="progress_tournaments">Laddar ner turneringar</string>
+	<string name="progress_games">Laddar partier</string>
 </resources>

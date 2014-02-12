@@ -44,7 +44,7 @@ namespace LiveOthelloAndroid
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
 			_progressDialog = new ProgressDialog(this) { Indeterminate = true };
-			_progressDialog.SetTitle ("Please wait...");
+			_progressDialog.SetTitle (Resources.GetString (Resource.String.progress_title));
 
 
 			var tournaments = GetTournaments ();
@@ -336,7 +336,7 @@ namespace LiveOthelloAndroid
 
 		void UpdateTournamentinfoWithProgress (bool updateGameInfo)
 		{
-			ShowProgressDialog ("Downloading tournaments");
+			ShowProgressDialog (Resources.GetString (Resource.String.progress_tournaments));
 			Task.Factory.StartNew(() =>
 				UpdateTournamentinfo(updateGameInfo)
 			).ContinueWith(task => HideProgressDialog());
@@ -368,7 +368,7 @@ namespace LiveOthelloAndroid
 
 		void GetGamesAndUpdateSpinnerWithProgress (Tournament tournament)
 		{
-			ShowProgressDialog ("Loading games");
+			ShowProgressDialog (Resources.GetString (Resource.String.progress_games));
 			Task.Factory.StartNew(() =>
 				GetGamesAndUpdateSpinner(tournament)
 			).ContinueWith(task => HideProgressDialog());
