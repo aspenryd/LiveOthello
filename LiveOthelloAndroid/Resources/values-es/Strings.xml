@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">LiveOthello</string>
+	<string name="tournaments">Torneos</string>
+	<string name="games">Partidas</string>
+	<string name="view_game">Ver partida</string>
+	<string name="view_chat">Ver chat</string>
+
+	<string name="game_menu">Menu</string>
+
+	<string name="game_status">Estado de la partida</string>
+	<string name="game_finished">Partida finalizada</string>
+	<string name="game_waiting_start">Esperando que comience la partida</string>
+	<string name="black">Negro</string>
+	<string name="white">Blanco</string>
+	<string name="live_status">{0}{1} mueve ({2})</string>
+	<string name="new_move">¡Nuevo movimiento!</string>
+	<string name="button_first">&lt;&lt;</string>
+	<string name="button_prior">&lt;</string>
+	<string name="button_next">&gt;</string>
+	<string name="button_last">&gt;&gt;</string>
+
+
+	<string name="check_update">Verificar nuevas partidas</string>
+	<string name="settings">Configuración</string>
+	<string name="new_tournament_notification">Nuevo torneo LiveOthello</string>
+	<string name="new_game_notification">Nueva partida LiveOthello</string>
+
+	<string name="notification_alerts">Alertas de notificaciones</string>
+	<string name="play_sound">Tocar sonido</string>
+	<string name="vibrate">Vibrar</string>
+	<string name="show_lights">Hacer luces</string>
+	<string name="use_hamlet_applet">Usar Hamlet applet</string>
+	<string name="tournament_notification">Notificación de torneo</string>
+	<string name="notification_none">Nunca</string>
+	<string name="notification_one">Uno</string>
+	<string name="notification_every">Siempre</string>
+	<string name="games_notification">Notificación de partidas</string>
+
+	<string name="progress_title">Aguarde...</string>
+	<string name="progress_tournaments">Descargando torneos</string>
+	<string name="progress_games">Cargando partidas</string>
+</resources>
